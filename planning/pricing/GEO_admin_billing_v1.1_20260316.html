@@ -230,13 +230,13 @@
 
         .wf-badge {
             display: inline-block;
-            padding: 2px 8px;
+            padding: 4px 10px;
             background: #e0e7ff;
             color: #3c71fd;
             border-radius: 4px;
-            font-size: 10px;
+            font-size: 14px;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 0px;
         }
 
         .wf-price {
@@ -798,3 +798,624 @@
                 <li>잔여 횟수 소멸 및 이월 정책</li>
             </ul>
             <h3>요금관리 화면</h3>
+            <div class="policy-container">
+                <!-- 3.1 차감 시점 -->
+                <div class="policy-section">
+                    <h4>3.1 기능 별 차감 시점 (Deduction Timing)</h4>
+                    <div class="flow-grid">
+                        <div class="flow-item">
+                            <span class="title">타겟 세그먼트 생성</span>
+                            <div class="steps">
+                                <span>1. 조건 설정</span>
+                                <span>2. 추출 실행</span>
+                                <span class="step deduct">3. 결과 생성 시 차감 (-1)</span>
+                            </div>
+                        </div>
+                        <div class="flow-item">
+                            <span class="title">캠페인 생성 (메시징)</span>
+                            <div class="steps">
+                                <span>1. 타겟 선택</span>
+                                <span>2. 문구 작성</span>
+                                <span class="step deduct">3. 발송 완료 시 차감 (N건)</span>
+                            </div>
+                        </div>
+                        <div class="flow-item">
+                            <span class="title">대시보드 리포트</span>
+                            <div class="steps">
+                                <span>1. 기간 설정</span>
+                                <span>2. 조회 클릭</span>
+                                <span class="step deduct">3. 데이터 노출 시 차감 (-1)</span>
+                            </div>
+                        </div>
+                        <div class="flow-item">
+                            <span class="title">광고주 계정 연동</span>
+                            <div class="steps">
+                                <span>1. 매체 로그인</span>
+                                <span class="step deduct">2. 연동 완료 시 차감 (-1)</span>
+                                <span>3. 데이터 동기화</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3.2 소멸 및 이월 -->
+                <div class="policy-section">
+                    <h4>3.2 소멸 및 이월 정책 (Expiration & Carry-over)</h4>
+                    <div class="policy-grid">
+                        <div class="policy-card">
+                            <span class="label">결제 요금제</span>
+                            <p><strong>매월 1일</strong> 부여된 기본 제공량은 <strong>당월 말일 23:59</strong>에 모두 소멸됨.</p>
+                            <p style="color: #666;">* 미사용 잔여분 이월 불가</p>
+                        </div>
+                        <div class="policy-card" style="background: #eef2ff; border: 1px solid #3c71fd;">
+                            <span class="label" style="background: #3c71fd;">애드온(Add-on)</span>
+                            <p>추가 구매한 애드온 상품의 횟수는 <strong>유효기간(1년)</strong> 동안 유지됨.</p>
+                            <p style="color: #3c71fd; font-weight: bold;">* 잔여 횟수 다음 달로 이월 가능</p>
+                        </div>
+                        <div class="policy-card">
+                            <span class="label">차감 우선순위</span>
+                            <p>1. 결제 요금제 기본량 (선차감)</p>
+                            <p>2. 유효기간 임박 애드온</p>
+                            <p>3. 일반 애드온</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. 요금관리 메인 (관리자 홈) -->
+    <section class="slide" id="slide-prj-02-00">
+        <header>
+            <div class="header-item"><span>PAGE ID</span>PRJ-02-00</div>
+            <div class="header-item"><span>SCREEN NAME</span>요금관리 메인 (구독 현황)</div>
+            <div class="header-item"><span>DESCRIPTION</span>현재 구독 상태, 이용량, 결제 카드 정보를 한눈에 확인</div>
+        </header>
+        <div class="content">
+            <div class="wireframe">
+                <div class="wf-container">
+                    <div class="wf-header">구독 및 이용 현황</div>
+                    <div style="display: flex; gap: 15px;">
+                        <!-- 플랜 카드 -->
+                        <div class="wf-card" style="flex: 1;">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 5px;">
+                                <div class="wf-badge">PRO Plan</div>
+                                <div class="wf-price">99,000원<span style="font-size: 12px; color: #666; font-weight: 400;"> /월</span></div>
+                            </div>
+                            <div style="text-align: right; font-size: 11px; color: #666; margin-bottom: 12px;">다음 결제일: 2026.04.01</div>
+                            <div style="border-top: 1px solid #eee; padding-top: 10px;">
+                                <div style="font-size: 11px; font-weight: bold; margin-bottom: 8px; color: #475569;">포함된 기능</div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px;">
+                                    <div style="font-size: 10px; color: #64748b;">• 타겟 세그먼트 생성</div>
+                                    <div style="font-size: 10px; color: #64748b;">• 정밀 대시보드 리포트</div>
+                                    <div style="font-size: 10px; color: #64748b;">• 광고주 계정 연동 (5개)</div>
+                                    <div style="font-size: 10px; color: #64748b;">• 메시징 자동화 기본</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 이용 현황 카드 -->
+                        <div class="wf-card" style="flex: 1.5;">
+                            <div style="font-size: 14px; font-weight: bold; margin-bottom: 15px;">월간 이용 현황</div>
+                            <div class="wf-usage-item">
+                                <div class="wf-usage-head">
+                                    <span>타겟 세그먼트 추출</span>
+                                    <span><strong>420</strong> / 500건</span>
+                                </div>
+                                <div class="wf-progress-bg"><div class="wf-progress-fill" style="width: 84%;"></div></div>
+                            </div>
+                            <div class="wf-usage-item">
+                                <div class="wf-usage-head">
+                                    <span>메시징 발송</span>
+                                    <span><strong>8,500</strong> / 10,000건</span>
+                                </div>
+                                <div class="wf-progress-bg"><div class="wf-progress-fill" style="width: 85%;"></div></div>
+                            </div>
+                            <div class="wf-usage-item">
+                                <div class="wf-usage-head">
+                                    <span>광고주 계정 연동</span>
+                                    <span><strong>3</strong> / 5개</span>
+                                </div>
+                                <div class="wf-progress-bg"><div class="wf-progress-fill" style="width: 60%;"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="description">
+                <ul>
+                    <li><strong>현재 플랜</strong>: 요금제명 및 월 결제금액 노출</li>
+                    <li><strong>다음 결제일</strong>: 정기 결제 예정일 수시 업데이트</li>
+                    <li><strong>이용량 실시간 그래프</strong>:
+                        <ul>
+                            <li>80% 경과 시 노란색</li>
+                            <li>100% 도달 시 빨간색으로 변경</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. 결제수단 관리 (PRJ-02-01) -->
+    <section class="slide" id="slide-prj-02-01">
+        <header>
+            <div class="header-item"><span>PAGE ID</span>PRJ-02-01</div>
+            <div class="header-item"><span>SCREEN NAME</span>결제수단 관리</div>
+        </header>
+        <div class="content">
+            <div class="wireframe">
+                <div class="wf-container">
+                    <div class="wf-header">결제수단 관리</div>
+                    <!-- Empty State -->
+                    <div class="wf-card" style="height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 2px dashed #cbd5e1; background: #f8fafc;">
+                        <span style="font-size: 24px; margin-bottom: 10px;">💳</span>
+                        <div style="font-size: 12px; color: #64748b;">등록된 결제수단이 없습니다.</div>
+                        <button style="margin-top: 10px; padding: 5px 15px; background: #3c71fd; color: #fff; border: none; border-radius: 4px; font-size: 11px; cursor: pointer;">카드 등록하기</button>
+                    </div>
+
+                    <!-- Registered State (Optional Preview) -->
+                    <div class="wf-card" style="margin-top: 20px;">
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <div style="width: 40px; height: 25px; background: #1e293b; border-radius: 4px; color: #fff; font-size: 8px; display: flex; align-items: center; justify-content: center;">VISA</div>
+                                <div>
+                                    <div style="font-size: 12px; font-weight: bold;">삼성카드 (****-****-****-1234)</div>
+                                    <div style="font-size: 10px; color: #64748b;">만료일: 28/05 | 기본 결제수단</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 5px;">
+                                <button style="padding: 4px 8px; border: 1px solid #e2e8f0; border-radius: 4px; font-size: 10px; background: #fff;">변경</button>
+                                <button style="padding: 4px 8px; border: 1px solid #e2e8f0; border-radius: 4px; font-size: 10px; background: #fff; color: #ef4444;">삭제</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="description">
+                <ul>
+                    <li><strong>최초 등록</strong>: 카드가 없을 경우 [카드 등록하기] 버튼만 노출</li>
+                    <li><strong>보안성</strong>: 카드번호는 뒷 4자리 제외 마스킹 처리</li>
+                    <li><strong>검증</strong>: 카드 등록 시 KCP 신용카드 본인확인/인증 창 활성화</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. KCP 본인 식별창 (PRJ-02-02) -->
+    <section class="slide" id="slide-prj-02-02">
+        <header>
+            <div class="header-item"><span>PAGE ID</span>PRJ-02-02</div>
+            <div class="header-item"><span>SCREEN NAME</span>결제수단 등록 (KCP 인증)</div>
+        </header>
+        <div class="content">
+            <div class="wireframe">
+                <div class="kcp-auth-window">
+                    <div class="kcp-logo">NHN KCP</div>
+                    <div class="kcp-title">결제카드 본인확인</div>
+                    <div class="kcp-box">
+                        <div class="kcp-form-group">
+                            <label class="kcp-label">카드번호</label>
+                            <input type="text" class="kcp-input" placeholder="0000 - 0000 - 0000 - 0000">
+                        </div>
+                        <div class="kcp-form-group">
+                            <label class="kcp-label">유효기간</label>
+                            <input type="text" class="kcp-input" style="width:60px; flex:none;" placeholder="MM">
+                            <span style="margin: 0 5px;">/</span>
+                            <input type="text" class="kcp-input" style="width:60px; flex:none;" placeholder="YY">
+                        </div>
+                        <div class="kcp-form-group">
+                            <label class="kcp-label">생년월일</label>
+                            <input type="text" class="kcp-input" placeholder="YYMMDD (6자리)">
+                        </div>
+                        <div class="kcp-form-group">
+                            <label class="kcp-label">비밀번호</label>
+                            <input type="password" class="kcp-input" style="width:80px; flex:none;" placeholder="앞 2자리">
+                            <span style="margin-left:5px; color:#999;">**</span>
+                        </div>
+                        <button class="kcp-btn">다음</button>
+                    </div>
+                    <div class="kcp-footer">
+                        - 입력하신 고객님의 소중한 정보는 결제카드 소유자 확인을 위해서만 이용됩니다.<br>
+                        - 본인 명의의 카드가 아닌 경우 결제가 제한될 수 있습니다.
+                    </div>
+                </div>
+            </div>
+            <div class="description">
+                <ul>
+                    <li><strong>연동 방식</strong>: NHN KCP 정기결제 API 호출</li>
+                    <li><strong>UI 특징</strong>: 별도 팝업(또는 iframe 모달)으로 노출되어 신뢰도 제공</li>
+                    <li><strong>유효성 체크</strong>: 카드사 응답에 따라 즉시 성공/실패 토스트 메시지 노출</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. 플랜 변경 (PRJ-02-03) -->
+    <section class="slide" id="slide-prj-02-03">
+        <header>
+            <div class="header-item"><span>PAGE ID</span>PRJ-02-03</div>
+            <div class="header-item"><span>SCREEN NAME</span>플랜 변경 (업그레이드/다운그레이드)</div>
+        </header>
+        <div class="content">
+            <div class="wireframe">
+                <div class="wf-container">
+                    <div class="wf-header">이용 플랜 변경</div>
+                    <div class="wf-grid-4">
+                        <div class="wf-plan-card">
+                            <div style="font-size: 12px; font-weight: bold; margin-bottom: 10px;">STARTER</div>
+                            <div style="font-size: 16px; font-weight: 800; margin-bottom: 10px;">무료</div>
+                            <button style="width: 100%; padding: 5px; border: 1px solid #ddd; background: #fff; font-size: 10px; cursor: pointer;">현재 이용 중</button>
+                        </div>
+                        <div class="wf-plan-card active">
+                            <div class="wf-badge" style="font-size: 10px;">Most Popular</div>
+                            <div style="font-size: 12px; font-weight: bold; margin-bottom: 5px;">PRO</div>
+                            <div style="font-size: 16px; font-weight: 800; margin-bottom: 10px;">99,000원</div>
+                            <button style="width: 100%; padding: 5px; background: #3c71fd; color: #fff; border: none; font-size: 10px; border-radius: 4px; cursor: pointer;">변경 완료</button>
+                        </div>
+                        <div class="wf-plan-card">
+                            <div style="font-size: 12px; font-weight: bold; margin-bottom: 10px;">BUSINESS</div>
+                            <div style="font-size: 16px; font-weight: 800; margin-bottom: 10px;">299,000원</div>
+                            <button style="width: 100%; padding: 5px; border: 1px solid #3c71fd; color: #3c71fd; background: #fff; font-size: 10px; border-radius: 4px; cursor: pointer;">업그레이드</button>
+                        </div>
+                        <div class="wf-plan-card">
+                            <div style="font-size: 12px; font-weight: bold; margin-bottom: 10px;">ENTERPRISE</div>
+                            <div style="font-size: 16px; font-weight: 800; margin-bottom: 10px;">별도문의</div>
+                            <button style="width: 100%; padding: 5px; border: 1px solid #ddd; background: #fff; font-size: 10px; cursor: pointer;">도입 상담</button>
+                        </div>
+                    </div>
+                    <div class="wf-info-callout" style="margin-top: 20px;">
+                        • <strong>플랜 업그레이드</strong>: 즉시 반영되며, 기존 플랜의 잔여 일수를 계산하여 차액만 결제됩니다.<br>
+                        • <strong>플랜 다운그레이드</strong>: 다음 정기 결제일에 반영되며, 이번 달은 현재 플랜을 유지합니다.
+                    </div>
+                </div>
+            </div>
+            <div class="description">
+                <ul>
+                    <li><strong>즉시 업그레이드</strong>: 사용자가 기다림 없이 상위 기능을 바로 쓸 수 있도록 구현</li>
+                    <li><strong>일할 계산(Proration)</strong>: 시스템에서 잔여 사용 기간을 초 단위로 계산하여 합리적 금액 청구</li>
+                    <li><strong>이탈 방지</strong>: 다운그레이드 선택 시 '혜택 축소 안내' 팝업 노출</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. 결제 내역 (PRJ-02-04) -->
+    <section class="slide" id="slide-prj-02-04">
+        <header>
+            <div class="header-item"><span>PAGE ID</span>PRJ-02-04</div>
+            <div class="header-item"><span>SCREEN NAME</span>결제 및 청구 내역</div>
+        </header>
+        <div class="content" style="flex-direction: column;">
+            <div class="wireframe" style="flex: none; height: 400px; padding: 20px;">
+                <div class="wf-container">
+                    <div class="wf-header">결제 내역</div>
+                    <table class="wf-table">
+                        <thead>
+                            <tr>
+                                <th>결제일시</th>
+                                <th>항목</th>
+                                <th>결제금액</th>
+                                <th>상태</th>
+                                <th>영수증</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>2026.03.01 10:05</td>
+                                <td>PRO 플랜 정기결제</td>
+                                <td>99,000원</td>
+                                <td><span style="color: #059669; font-weight: bold;">결제완료</span></td>
+                                <td><button style="padding: 2px 8px; font-size: 10px; border: 1px solid #ccc; background: #fff;">보기</button></td>
+                            </tr>
+                            <tr>
+                                <td>2026.02.15 14:20</td>
+                                <td>애드온: 메시징 10,000건 구매</td>
+                                <td>50,000원</td>
+                                <td><span style="color: #059669; font-weight: bold;">결제완료</span></td>
+                                <td><button style="padding: 2px 8px; font-size: 10px; border: 1px solid #ccc; background: #fff;">보기</button></td>
+                            </tr>
+                            <tr>
+                                <td>2026.02.01 10:00</td>
+                                <td>PRO 플랜 정기결제</td>
+                                <td>99,000원</td>
+                                <td><span style="color: #059669; font-weight: bold;">결제완료</span></td>
+                                <td><button style="padding: 2px 8px; font-size: 10px; border: 1px solid #ccc; background: #fff;">보기</button></td>
+                            </tr>
+                            <tr>
+                                <td>2026.01.20 18:30</td>
+                                <td>업그레이드 차액 (Starter -> PRO)</td>
+                                <td>33,200원</td>
+                                <td><span style="color: #ef4444; font-weight: bold;">환불완료</span></td>
+                                <td><button style="padding: 2px 8px; font-size: 10px; border: 1px solid #ccc; background: #fff;">보기</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="description" style="flex: 1; border-top: none;">
+                <ul>
+                    <li><strong>필터 기능</strong>: 월별 조회, 항목별(정기결제/애드온/환불) 조회 가능</li>
+                    <li><strong>영수증 보기</strong>: 클릭 시 별도 팝업으로 국세청 증빙용 전표 노출</li>
+                    <li><strong>환불 처리</strong>: 환불 건은 붉은색 텍스트로 강조</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. 알림 및 모달 세트 (PRJ-02-05) -->
+    <section class="slide" id="slide-prj-02-05">
+        <header>
+            <div class="header-item"><span>PAGE ID</span>PRJ-02-05</div>
+            <div class="header-item"><span>SCREEN NAME</span>결제 실패 및 플랜 제한 알림 모달</div>
+        </header>
+        <div class="content">
+            <div class="wireframe">
+                <div class="wf-container" style="justify-content: center; align-items: center; gap: 30px; position: relative;">
+                    <!-- 결제 실패 알림 -->
+                    <div class="wf-card" style="width: 300px; text-align: center; border: 2px solid #ef4444;">
+                        <span style="font-size: 30px; display: block; margin-bottom: 10px;">⚠️</span>
+                        <div style="font-size: 14px; font-weight: bold; margin-bottom: 8px;">정기 결제 실패 안내</div>
+                        <div style="font-size: 11px; color: #64748b; margin-bottom: 15px;">
+                            등록된 카드의 한도 초과로 인해 결제가 실패되었습니다. 결제수단을 업데이트하지 않으면 서비스 이용이 제한될 수 있습니다.
+                        </div>
+                        <button style="width: 100%; padding: 8px; background: #ef4444; color: #fff; border: none; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer;">결제수단 변경하기</button>
+                    </div>
+
+                    <!-- 횟수 소진 알림 -->
+                    <div class="wf-card" style="width: 300px; text-align: center; border: 2px solid #3c71fd;">
+                        <span style="font-size: 30px; display: block; margin-bottom: 10px;">🚀</span>
+                        <div style="font-size: 14px; font-weight: bold; margin-bottom: 8px;">기본 제공량 소진 임박</div>
+                        <div style="font-size: 11px; color: #64748b; margin-bottom: 15px;">
+                            타겟 세그먼트 생성 횟수가 <strong>90% 소진</strong>되었습니다. 끊김 없는 이용을 위해 애드온을 구매해보세요.
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <button style="flex: 1; padding: 8px; background: #fff; border: 1px solid #ddd; border-radius: 4px; font-size: 11px; cursor: pointer;">나중에 하기</button>
+                            <button style="flex: 1; padding: 8px; background: #3c71fd; color: #fff; border: none; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer;">애드온 구매</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="description">
+                <ul>
+                    <li><strong>실패 유예 기간</strong>: 1차 실패 시 즉시 차단하지 않고 3일간 재시도 및 이용 허용 (그레이스 피리어드)</li>
+                    <li><strong>토스트 알림</strong>: 화면 우상단에 5초간 노출 후 사라지는 스낵바 형태 병행</li>
+                    <li><strong>이메일 발송</strong>: 관리자 계정으로 동일 내용 메일 즉시 발송</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. 최고관리자 > 광고주 요금 조회 (PRJ-02-06) -->
+    <section class="slide" id="slide-prj-02-06">
+        <header>
+            <div class="header-item"><span>PAGE ID</span>PRJ-02-06</div>
+            <div class="header-item"><span>SCREEN NAME</span>최고관리자 > 요금관리 (리스트)</div>
+            <div class="header-item"><span>DESCRIPTION</span>등록된 모든 광고주의 구독 플랜 및 이용 현황 모니터링</div>
+        </header>
+        <div class="content">
+            <div class="wireframe">
+                <div class="wf-total-layout">
+                    <!-- 사이드바 -->
+                    <div class="wf-total-sidebar">
+                        <div class="wf-sidebar-header">
+                            <div class="wf-sidebar-title">GEO ADMIN</div>
+                        </div>
+                        <div class="wf-sidebar-menu">
+                            <div class="wf-sidebar-item">대시보드</div>
+                            <div class="wf-sidebar-item">광고주 관리</div>
+                            <div class="wf-sidebar-item active">요금관리</div>
+                            <div class="wf-sidebar-item">연동 매체 관리</div>
+                            <div class="wf-sidebar-item">시스템 설정</div>
+                        </div>
+                    </div>
+                    <!-- 메인 영역 -->
+                    <div class="wf-total-main">
+                        <div style="font-size: 14px; font-weight: bold; margin-bottom: 5px;">광고주 구독 현황 리스트</div>
+                        <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                            <input type="text" placeholder="광고주명 검색" style="padding: 4px; border: 1px solid #ddd; font-size: 10px; flex: 1;">
+                            <select style="padding: 4px; border: 1px solid #ddd; font-size: 10px;">
+                                <option>전체 플랜</option>
+                                <option>STARTER</option>
+                                <option>PRO</option>
+                                <option>BUSINESS</option>
+                            </select>
+                        </div>
+                        <table class="wf-table">
+                            <thead>
+                                <tr>
+                                    <th>광고주명</th>
+                                    <th>현재플랜</th>
+                                    <th>갱신일</th>
+                                    <th>사용률 (세그먼트)</th>
+                                    <th>관리</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>(주)에이치패션</td>
+                                    <td><span class="pricing-tag">PRO</span></td>
+                                    <td>2026.04.01</td>
+                                    <td><div class="wf-progress-bg" style="width: 50px;"><div class="wf-progress-fill" style="width: 80%;"></div></div></td>
+                                    <td><button style="padding: 2px 5px; font-size: 9px;">상세</button></td>
+                                </tr>
+                                <tr>
+                                    <td>모던리빙몰</td>
+                                    <td><span class="pricing-tag">BUSINESS</span></td>
+                                    <td>2026.04.12</td>
+                                    <td><div class="wf-progress-bg" style="width: 50px;"><div class="wf-progress-fill" style="width: 30%;"></div></div></td>
+                                    <td><button style="padding: 2px 5px; font-size: 9px;">상세</button></td>
+                                </tr>
+                                <tr>
+                                    <td>슈즈천국</td>
+                                    <td><span class="pricing-tag" style="background: #eee;">STARTER</span></td>
+                                    <td>-</td>
+                                    <td><div class="wf-progress-bg" style="width: 50px;"><div class="wf-progress-fill" style="width: 95%; background: #ef4444;"></div></div></td>
+                                    <td><button style="padding: 2px 5px; font-size: 9px;">상세</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="description">
+                <ul>
+                    <li><strong>실시간 모니터링</strong>: 사용률이 높은 광고주를 선별하여 추가 영업 기회 확보</li>
+                    <li><strong>강제 플랜 변경</strong>: CS 대응 등을 위해 최고관리자가 직접 플랜을 조정할 수 있는 기능 연결</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 11. 최고관리자 > 광고주 요금 상세 (PRJ-02-07) -->
+    <section class="slide" id="slide-prj-02-07">
+        <header>
+            <div class="header-item"><span>PAGE ID</span>PRJ-02-07</div>
+            <div class="header-item"><span>SCREEN NAME</span>최고관리자 > 요금 상세 및 강제 변경</div>
+        </header>
+        <div class="content">
+            <div class="wireframe">
+                <div class="wf-container" style="background: #fff; border: 1px solid #ddd;">
+                    <div style="padding: 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 15px; font-weight: bold;">(주)에이치패션 요금 관리</span>
+                        <button style="background: #f1f5f9; border: 1px solid #cbd5e1; padding: 5px 10px; font-size: 11px; border-radius: 4px;">광고주 로그로 접속</button>
+                    </div>
+                    <div style="padding: 20px;">
+                        <div style="margin-bottom: 20px;">
+                            <div style="font-size: 12px; font-weight: bold; margin-bottom: 10px;">현재 구독 중인 요금제 정보</div>
+                            <div style="display: flex; gap: 40px; background: #fafafa; padding: 15px; border-radius: 6px;">
+                                <div>
+                                    <div style="font-size: 10px; color: #666;">등급</div>
+                                    <div style="font-size: 14px; font-weight: bold; color: #3c71fd;">PRO Plan</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 10px; color: #666;">결제일/액</div>
+                                    <div style="font-size: 14px; font-weight: bold;">매월 1일 / 99,000원</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 10px; color: #666;">최초 가입일</div>
+                                    <div style="font-size: 14px; font-weight: bold;">2026.01.20</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div style="font-size: 12px; font-weight: bold; margin-bottom: 15px;">관리자 전용 기능 (강제 조정)</div>
+                            <div style="border: 1px dashed #ef4444; padding: 15px; border-radius: 6px;">
+                                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                                    <span style="font-size: 11px;">변경할 플랜 선택:</span>
+                                    <select style="font-size: 11px; padding: 4px;">
+                                        <option>BUSINESS Plan</option>
+                                        <option>ENTERPRISE Plan</option>
+                                    </select>
+                                    <button style="background: #ef4444; color: #fff; border: none; padding: 5px 15px; font-size: 11px; border-radius: 4px; font-weight: bold;">플랜 강제 변경 적용</button>
+                                </div>
+                                <div style="font-size: 10px; color: #ef4444;">* 강제 변경 시 기존 결제 일할 계산은 시스템 자동 처리되지 않으며, 사유를 입력해야 합니다.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="description">
+                <ul>
+                    <li><strong>로그인 대행</strong>: 광고주 화면과 동일한 화면을 보기 위해 '광고주 모드' 세션 진입 기능</li>
+                    <li><strong>CS 기록 연동</strong>: 강제 변경 시 '변경 사유' 입력을 필수로 하여 나중에 감사(Audit) 가능하도록 구현</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 플로팅 네비게이션 -->
+    <nav class="floating-nav">
+        <h4>화면 목록 (Page List)</h4>
+        <div class="wf-scroll-container">
+            <ul>
+                <li>
+                    <a href="#slide-prj-02-00">
+                        1. 요금관리 메인
+                        <span class="nav-id">PRJ-02-00 (광고주)</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#slide-prj-02-01">
+                        2. 결제수단 관리
+                        <span class="nav-id">PRJ-02-01 (광고주)</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#slide-prj-02-02">
+                        3. 결제수단 등록 (KCP)
+                        <span class="nav-id">PRJ-02-02 (KCP)</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#slide-prj-02-03">
+                        4. 플랜 변경
+                        <span class="nav-id">PRJ-02-03 (광고주)</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#slide-prj-02-04">
+                        5. 결제 및 청구 내역
+                        <span class="nav-id">PRJ-02-04 (광고주)</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#slide-prj-02-05">
+                        6. 알림/모달 세트
+                        <span class="nav-id">PRJ-02-05 (공통)</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#slide-prj-02-06">
+                        7. 요금 정보 조회 (리스트)
+                        <span class="nav-id">PRJ-02-06 (최고관리자)</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#slide-prj-02-07">
+                        8. 요금 상세/강제 변경
+                        <span class="nav-id">PRJ-02-07 (최고관리자)</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div style="margin-top: 15px; font-size: 10px; color: #94a3b8; text-align: center; border-top: 1px solid #f1f5f9; padding-top: 10px;">
+            GEO Billing UI Kit v1.3
+        </div>
+    </nav>
+
+    <!-- UI/UX 가이드 (v 1.3 추가) -->
+    <section class="slide" id="slide-guidelines">
+        <header>
+            <div class="header-item"><span>GUIDELINE</span>UI/UX 핵심 설계 방향</div>
+            <div class="header-item"><span>VERSION</span>1.3 (2026-03-16)</div>
+        </header>
+        <div class="content" style="display: block;">
+            <div class="policy-container">
+                <div class="policy-section">
+                    <h4>핵심 경험 목표</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div style="border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px;">
+                            <div style="font-weight: bold; margin-bottom: 10px; color: #3c71fd;">사용자 경험 (Cilent Side)</div>
+                            <ul style="font-size: 12px; color: #475569; padding-left: 18px;">
+                                <li><strong>명확한 가시성</strong>: 이용량 80/95/100% 임계치별로 시각적 대비를 주어 인지 속도 향상</li>
+                                <li><strong>중단 없는 서비스</strong>: 결제 수단 오류 시 즉시 차단이 아닌 유예 기간을 제공하여 안정적 운영 지원</li>
+                                <li><strong>합리적 과금 인지</strong>: 업그레이드 시 일할 계산 로직을 명확히 안내하여 불필요한 문의 방지</li>
+                            </ul>
+                        </div>
+                        <div style="border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px;">
+                            <div style="font-weight: bold; margin-bottom: 10px; color: #3c71fd;">운영 효율 (Admin Side)</div>
+                            <ul style="font-size: 12px; color: #475569; padding-left: 18px;">
+                                <li><strong>선제적 대응</strong>: 소진 임박 광고주를 리스트 최상단에 노출하여 추가 업셀링(Up-selling) 기회 포착</li>
+                                <li><strong>운영 기록의 투명성</strong>: 강제 변경 시 사유 코드를 부여하여 추후 분쟁 및 오과금 히스토리 추적 용이</li>
+                                <li><strong>커스터마이징 대응</strong>: 엔터프라이즈 급 광고주를 위한 '별도 조건(횟수 추가)' 관리 유연성 확보</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+
+</html>
