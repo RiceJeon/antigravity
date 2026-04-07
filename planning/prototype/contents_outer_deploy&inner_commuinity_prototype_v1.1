@@ -1,0 +1,2091 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>매체별 외부 확산 시뮬레이션 프로토타입</title>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap">
+    <style>
+        :root {
+            --primary-color: #ff0000;
+            /* 네이트 레드 */
+            --nate-red: #ff3000;
+            --nate-gray: #f6f6f6;
+            --nate-border: #e0e0e0;
+            --bg-light: #f4f7fa;
+            --text-dark: #2d3436;
+            --border-color: #dfe6e9;
+            --sidebar-width: 260px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Layout - Sidebar GNB */
+        nav.sidebar {
+            width: var(--sidebar-width);
+            background: #ffffff;
+            border-right: 1px solid var(--border-color);
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 2.5rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        nav ul {
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #636e72;
+            font-size: 0.95rem;
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        nav ul li a:hover,
+        nav ul li a.active {
+            background-color: #eff6ff;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+            padding: 2.5rem;
+        }
+
+        section {
+            margin-bottom: 3rem;
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #2d3436;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: var(--primary-color);
+            display: inline-block;
+            border-radius: 2px;
+        }
+
+        /* Simulator Controls */
+        .controls {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            align-items: center;
+        }
+
+        .btn-group {
+            display: flex;
+            background: #eee;
+            padding: 4px;
+            border-radius: 8px;
+            gap: 4px;
+        }
+
+        .control-btn {
+            border: none;
+            padding: 6px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: 0.2s;
+            background: transparent;
+            color: #666;
+        }
+
+        .control-btn.active {
+            background: #fff;
+            color: var(--primary-color);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-weight: 700;
+        }
+
+        /* The Simulator Frame */
+        .simulator-window {
+            width: 100%;
+            height: 750px;
+            background: #dfe6e9;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .simulator-window.mobile {
+            padding: 40px 0;
+        }
+
+        .frame-inner {
+            background: #fff;
+            width: 100%;
+            height: 100%;
+            max-width: 100%;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: width 0.3s ease;
+        }
+
+        .mobile .frame-inner {
+            width: 375px;
+            border: 12px solid #333;
+            border-radius: 30px;
+        }
+
+        /* Media Specific Header */
+        /* Nate Pann Enhanced Header */
+        .nate-top-bar {
+            background: #fff;
+            padding: 5px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f2f2f2;
+            font-size: 11px;
+            color: #666;
+        }
+
+        .nate-top-bar .left {
+            cursor: pointer;
+        }
+
+        .nate-top-bar .right {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nate-top-bar .right span {
+            cursor: pointer;
+        }
+
+        .nate-main-header {
+            background: #fff;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nate-logo {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+        }
+
+        .nate-logo .bi {
+            color: #ff3000;
+            font-weight: 800;
+            font-size: 26px;
+            letter-spacing: -1.5px;
+            font-family: Arial, sans-serif;
+        }
+
+        .nate-logo .svc-name {
+            font-weight: 700;
+            font-size: 24px;
+            color: #333;
+            margin-left: 2px;
+        }
+
+        .svc-links {
+            display: flex;
+            gap: 15px;
+            font-size: 16px;
+            font-weight: 400;
+            color: #444;
+            margin-left: 10px;
+        }
+
+        .svc-links span {
+            cursor: pointer;
+        }
+
+        .nate-search-box {
+            display: flex;
+            align-items: center;
+            border: 1px solid #333;
+            border-radius: 4px;
+            height: 36px;
+            width: 240px;
+            /* 240px은 다소 좁을 수 있으니 레이아웃에 맞춰 조절하세요 */
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .search-select {
+            padding: 0 10px;
+            font-size: 13px;
+            color: #333;
+            border-right: 1px solid #eee;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: #fff;
+            cursor: pointer;
+
+            /* ★ 추가: 글자가 세로로 깨지는 것을 방지 */
+            white-space: nowrap;
+
+            /* ★ 추가: 공간이 부족해도 선택 영역이 찌그러지지 않게 고정 */
+            flex-shrink: 0;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 0;
+            /* ★ 추가: flex 요소가 부모 너비를 넘치지 않게 안전장치 */
+            border: none;
+            padding: 0 10px;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .search-btn {
+            padding: 0 10px;
+            color: #333;
+            font-size: 18px;
+            cursor: pointer;
+
+            /* ★ 추가: 버튼 아이콘이 찌그러지지 않게 고정 */
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .nate-nav {
+            background: #fff;
+            border-bottom: 2px solid #ff3000;
+            display: flex;
+            padding: 0 10px;
+            margin-top: -1px;
+        }
+
+        .nate-nav-item {
+            padding: 12px 15px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .nate-nav-item.active {
+            color: #ff3000;
+        }
+
+        .nate-nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #ff3000;
+        }
+
+        /* Mobile Adjustments for Enhanced Header */
+        .mobile .nate-top-bar {
+            background: #ff3000;
+            color: #fff;
+            border: none;
+        }
+
+        .mobile .nate-top-bar .right {
+            display: none;
+        }
+
+        .mobile .nate-main-header {
+            padding: 10px 15px;
+            background: #ff3000;
+        }
+
+        .mobile .nate-logo .bi,
+        .mobile .nate-logo .svc-name,
+        .mobile .svc-links {
+            color: #fff;
+        }
+
+        .mobile .svc-links {
+            display: none;
+        }
+
+        .mobile .nate-search-box {
+            display: none;
+        }
+
+        /* Nate Pann Content List Style */
+        .pann-list-item {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            gap: 15px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .pann-list-item:hover {
+            background: #fafafa;
+        }
+
+        .pann-list-thumb {
+            width: 90px;
+            height: 90px;
+            border-radius: 4px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .pann-list-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .pann-list-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .pann-list-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+
+        .pann-list-summary {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .pann-list-meta {
+            margin-top: 8px;
+            font-size: 11px;
+            color: #999;
+        }
+
+        /* Mobile Nate Top Bar */
+        .mobile .nate-header {
+            background: #ff3000;
+            color: #fff;
+            padding: 10px 15px;
+        }
+
+        .mobile .nate-logo .bi,
+        .mobile .nate-logo .svc-name {
+            color: #fff;
+        }
+
+        .mobile .nate-search {
+            display: none;
+        }
+
+        /* Nate Home Tab Specifics */
+        .nate-home-container {
+            background: #fff;
+            padding: 10px;
+        }
+
+        .img-placeholder {
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 13px;
+            font-weight: 700;
+            border-radius: 2px;
+        }
+
+        .home-banner {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 15px;
+        }
+
+        .home-top-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .home-top-card {
+            border: 1px solid #eee;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .home-top-card .thumb {
+            width: 100%;
+            height: 100px;
+        }
+
+        .home-top-card .title {
+            padding: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 1.4;
+            color: #333;
+            background: #fff;
+        }
+
+        .home-talk-sections {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .talk-section-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: #000;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .talk-section-title span {
+            font-size: 11px;
+            color: #999;
+            font-weight: normal;
+        }
+
+        .talk-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .talk-list-item {
+            padding: 6px 0;
+            font-size: 13px;
+            color: #444;
+            border-bottom: 1px solid #f9f9f9;
+            display: flex;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .talk-list-item:hover {
+            text-decoration: underline;
+        }
+
+        .talk-list-item .count {
+            color: #ff3000;
+            font-size: 11px;
+            margin-left: 5px;
+        }
+
+        .mobile .home-talk-sections {
+            grid-template-columns: 1fr;
+        }
+
+        .mobile .home-top-grid {
+            grid-template-columns: 1fr;
+        }
+
+        /* Nate Talk Tab Specifics */
+        .talk-container {
+            background: #fff;
+            padding: 10px;
+        }
+
+        .talk-top-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .talk-category-card {
+            font-size: 11px;
+            color: #ff3000;
+            margin-bottom: 5px;
+        }
+
+        .talk-top-card .talk-thumb {
+            width: 100%;
+            height: 80px;
+        }
+
+        .talk-main-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr 240px;
+            gap: 20px;
+        }
+
+        .talk-column-title {
+            font-size: 15px;
+            font-weight: 800;
+            border-bottom: 2px solid #333;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .talk-sidebar-btn {
+            width: 100%;
+            background: #666;
+            color: #fff;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .sidebar-section {
+            border: 1px solid #eee;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .sidebar-title {
+            font-size: 13px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .talk-category-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px 15px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .talk-category-grid span {
+            cursor: pointer;
+        }
+
+        .talk-category-grid span:hover {
+            color: #ff3000;
+        }
+
+        /* Responsive Talk */
+        .mobile .talk-main-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .mobile .talk-top-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        /* Nate Fan Tab Specifics */
+        .fan-container {
+            background: #fff;
+            padding: 10px;
+        }
+
+        .my-fan-banner {
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            padding: 12px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .my-fan-banner .text {
+            color: #666;
+        }
+
+        .my-fan-banner .btn {
+            padding: 5px 15px;
+            border: 1px solid #999;
+            border-radius: 15px;
+            background: #fff;
+            color: #333;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .fan-pink-banner {
+            background: #ffe6ef;
+            height: 60px;
+            border-radius: 4px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            color: #e91e63;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .fan-top10-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .top10-title {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .top10-list {
+            border-top: 1px solid #333;
+        }
+
+        .top10-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 13px;
+        }
+
+        .top10-rank {
+            font-style: italic;
+            font-weight: 800;
+            color: #ff3000;
+            width: 25px;
+            margin-right: 10px;
+        }
+
+        .top10-badge {
+            border: 1px solid #ff3000;
+            color: #ff3000;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            margin-right: 10px;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .fan-bottom-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .issue-box {
+            border: 1px solid #eee;
+            padding: 20px;
+            border-radius: 4px;
+        }
+
+        .fan-sidebar-search {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .fan-sidebar-search input {
+            width: 100%;
+            padding: 8px 30px 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        .fan-sidebar-search .icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+
+        .fan-channel-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .fan-channel-list span {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .fan-channel-list .score {
+            color: #ff8a00;
+        }
+
+        /* Combined Talk/Fan Sidebar */
+        .mobile .talk-sidebar,
+        .mobile .fan-sidebar {
+            display: none;
+        }
+
+        .mobile .fan-top10-layout,
+        .mobile .fan-bottom-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .view-list {
+            padding: 20px;
+            overflow-y: auto;
+            height: 100%;
+        }
+
+        /* Image Tab Styles */
+        .image-topic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .image-topic-card {
+            position: relative;
+            height: 100px;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .image-topic-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.7);
+        }
+
+        .image-topic-card span {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: 700;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+        }
+
+        .gallery-item {
+            border-radius: 12px;
+            overflow: hidden;
+            background: #f0f0f0;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            display: block;
+        }
+
+        /* News Tab Styles */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .news-card {
+            position: relative;
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .news-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .news-card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 15px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: white;
+        }
+
+        .news-card-meta {
+            font-size: 11px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .news-card-title {
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Magazine Tab Styles (Bing style) */
+        .magazine-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .thumb-card {
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .thumb-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .thumb-img {
+            width: 100%;
+            height: 150px;
+            background: #f0f0f0;
+            object-fit: cover;
+        }
+
+        /* Ensure images scale properly on small/mobile simulator */
+        .thumb-img,
+        .view-detail img,
+        .bing-main-img img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Mobile simulator specific overrides to prevent clipping
+           and ensure thumbnails and detail images resize well */
+        .mobile .frame-inner .thumb-img,
+        .mobile .frame-inner .bing-main-img img,
+        .mobile .frame-inner .view-detail img {
+            height: auto !important;
+            max-width: 100% !important;
+            object-fit: cover;
+        }
+
+        .thumb-info {
+            padding: 10px;
+        }
+
+        .thumb-title {
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1.4;
+            color: #333;
+            height: 36px;
+            overflow: hidden;
+        }
+
+        /* Nate Detail Page Styles */
+        .nate-detail-wrap {
+            padding: 20px 15px;
+            background: #fff;
+        }
+
+        .nate-detail-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #111;
+            line-height: 1.4;
+            margin-bottom: 10px;
+            word-break: break-all;
+        }
+
+        .nate-detail-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .nate-detail-body {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .nate-detail-body img {
+            width: 100%;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+
+        .nate-detail-footer {
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .up-vote-area {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .up-vote-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        .up-vote-btn strong {
+            color: #ff3000;
+            font-size: 18px;
+        }
+
+        .up-vote-btn span {
+            font-size: 11px;
+            color: #888;
+        }
+
+        /* Nate Pann Detail Navigation Bar */
+        .pann-detail-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 10px;
+            border-bottom: 1px solid #eee;
+            background-color: #fff;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .nav-breadcrumb {
+            color: #333;
+        }
+
+        .nav-breadcrumb strong {
+            color: #333;
+            font-weight: 700;
+        }
+
+        .inner-arrow {
+            font-style: normal;
+            margin: 0 4px;
+            color: #ccc;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .nav-item {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            transition: color 0.2s;
+        }
+
+        .nav-item:hover {
+            color: #333;
+            text-decoration: underline;
+        }
+
+        .icon-list {
+            font-size: 14px;
+            margin-right: 2px;
+        }
+
+        /* 화살표 스타일 조절 */
+        .arrow-left,
+        .arrow-right {
+            font-style: normal;
+            font-family: "돋움", dotum, sans-serif;
+        }
+
+        /* Brand Wiki Wikipedia Style */
+        .wiki-container {
+            background: #fff;
+            color: #202122;
+            line-height: 1.6;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        .wiki-callout,
+        .deployment-callout {
+            background-color: #f0f7ff;
+            border-left: 5px solid #007bff;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.5;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .wiki-header {
+            border-bottom: 1px solid #a2a9b1;
+            margin-bottom: 0.5em;
+            padding-top: 0.5em;
+        }
+
+        .wiki-header h1 {
+            font-family: 'Linux Libertine', 'Georgia', 'Times', serif;
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin: 0;
+            color: #000;
+        }
+
+        .wiki-summary {
+            margin: 1em 0;
+            font-size: 0.95rem;
+        }
+
+        .wiki-toc {
+            background-color: #f8f9fa;
+            border: 1px solid #a2a9b1;
+            display: inline-block;
+            padding: 15px;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+        }
+
+        .wiki-toc-title {
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .wiki-toc ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+
+        .wiki-toc li {
+            margin-bottom: 5px;
+        }
+
+        .wiki-toc a {
+            color: #0645ad;
+            text-decoration: none;
+        }
+
+        .wiki-toc a:hover {
+            text-decoration: underline;
+        }
+
+        .wiki-section {
+            margin-top: 25px;
+        }
+
+        .wiki-section-title {
+            border-bottom: 1px solid #a2a9b1;
+            font-size: 1.4rem;
+            font-family: 'Linux Libertine', 'Georgia', 'Times', serif;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            color: #000;
+        }
+
+        .wiki-content {
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .wiki-content ul {
+            padding-left: 20px;
+            margin-top: 5px;
+        }
+
+        .wiki-content li {
+            margin-bottom: 8px;
+        }
+
+        .wiki-info-box {
+            float: right;
+            width: 280px;
+            border: 1px solid #a2a9b1;
+            background-color: #f8f9fa;
+            margin-left: 20px;
+            padding: 10px;
+            font-size: 0.85rem;
+        }
+
+        .wiki-info-box img {
+            width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .wiki-info-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .wiki-info-table th {
+            text-align: left;
+            background: #eaecf0;
+            padding: 5px;
+            width: 40%;
+            border: 1px solid #a2a9b1;
+        }
+
+        .wiki-info-table td {
+            padding: 5px;
+            border: 1px solid #a2a9b1;
+        }
+
+        @media (max-width: 768px) {
+            .wiki-info-box {
+                float: none;
+                width: 100%;
+                margin-left: 0;
+                margin-bottom: 20px;
+            }
+        }
+
+        /* Wiki Magazine Grid Style */
+        .wiki-magazine-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .wiki-magazine-item {
+            border: 1px solid #eee;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #fff;
+        }
+
+        .wiki-magazine-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            border-color: #007bff;
+        }
+
+        .wiki-magazine-item .thumb {
+            height: 140px;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #ccc;
+        }
+
+        .wiki-magazine-item .info {
+            padding: 12px;
+        }
+
+        .wiki-magazine-item .title {
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1.4;
+            color: #333;
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .wiki-magazine-item .meta {
+            font-size: 11px;
+            color: #999;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Floating Scroll Buttons */
+        .scroll-buttons {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 9999;
+        }
+
+        .scroll-btn {
+            width: 36px;
+            height: 36px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            font-size: 13px;
+            color: #666;
+            user-select: none;
+        }
+
+        .scroll-btn:hover {
+            background-color: #ff3000;
+            color: #fff;
+            border-color: #ff3000;
+            transform: translateY(-2px);
+        }
+
+        .scroll-btn.bottom {
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="sidebar">
+        <div class="logo">GEO Prototype</div>
+        <ul>
+            <li><a href="#section-config" class="active">01. 시뮬레이션 설정</a></li>
+            <li><a href="#section-preview">02. 제휴 매체 외부 확산 프리뷰</a></li>
+            <li><a href="#section-wiki">03. 브랜드 위키(i-FEED) 프로토타입</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="section-config">
+            <h2>01. 시뮬레이션 설정</h2>
+            <div class="controls" style="display: flex; gap: 40px; flex-wrap: wrap;">
+                <div>
+                    <span style="font-size: 13px; font-weight: 700; display: block; margin-bottom: 8px;">디바이스 환경
+                    </span>
+                    <div class="btn-group" id="device-selector">
+                        <button class="control-btn active" onclick="updateDevice('pc')">Web</button>
+                        <button class="control-btn" onclick="updateDevice('mobile')">Mobile</button>
+                    </div>
+                </div>
+                <div>
+                    <span style="font-size: 13px; font-weight: 700; display: block; margin-bottom: 8px;">시뮬레이터 메뉴 탭 선택
+                    </span>
+                    <div class="btn-group" id="config-tab-selector">
+                        <button class="control-btn" onclick="switchTab('home')">홈</button>
+                        <button class="control-btn" onclick="switchTab('talk')">톡톡</button>
+                        <button class="control-btn" onclick="switchTab('fan')">팬톡</button>
+                        <button class="control-btn active" onclick="switchTab('brand')">패션톡</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-preview">
+            <h2>02. 제휴 매체 외부 확산 프리뷰(네이트판 Ver.)</h2>
+            <div class="deployment-callout">
+                💡 본 프로토타입은 제휴가 완료된 외부 매체를 통해 베포된 광고주의 상품 별 <strong>'매거진 콘텐츠'</strong>를 구현한 프로토타입이며, 외부 인용 데이터의 양적·질적
+                확대를 통해 <strong>GEO 최적화 점수를 높이는 핵심 기제</strong>로 활용될 예정입니다.
+            </div>
+
+            <div class="simulator-window" id="sim-window">
+                <div class="frame-inner" id="sim-frame">
+                    <!-- Nate Enhanced Header -->
+                    <div id="media-header">
+                        <div class="nate-top-bar">
+                            <div class="left">네이트 메인가기</div>
+                            <div class="right">
+                                <span>로그인</span> | <span>메일</span> | <span>뉴스</span> | <span>판</span> | <span>TV</span>
+                                | <span>톡톡</span> | <span>더보기 +</span>
+                            </div>
+                        </div>
+                        <div class="nate-main-header">
+                            <div class="logo-area">
+                                <a href="#" class="nate-logo">
+                                    <span class="bi">nate</span>
+                                    <span class="svc-name">판</span>
+                                </a>
+                                <div class="svc-links">
+                                    <span>뉴스</span>
+                                    <span>스포츠</span>
+                                    <span>연예</span>
+                                </div>
+                            </div>
+                            <div class="nate-search-box">
+                                <div class="search-select">전체</div>
+                                <input type="text" class="search-input">
+                                <span class="search-btn">🔍</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nate Navigation -->
+                    <div class="nate-nav" id="media-tabs">
+                        <span class="nate-nav-item" id="tab-home" onclick="switchTab('home')">홈</span>
+                        <span class="nate-nav-item" id="tab-talk" onclick="switchTab('talk')">톡톡</span>
+                        <span class="nate-nav-item" id="tab-fan" onclick="switchTab('fan')">팬톡</span>
+                        <span class="nate-nav-item active" id="tab-brand" onclick="switchTab('brand')">패션톡</span>
+                    </div>
+
+                    <!-- 상세 페이지 상단 네비게이션 바 -->
+                    <div class="pann-detail-nav" id="detail-nav" style="display: none;">
+                        <div class="nav-breadcrumb">
+                            <span>패션톡</span> <i class="inner-arrow">&gt;</i> <strong>매거진</strong>
+                        </div>
+                        <div class="nav-actions">
+                            <span class="nav-item" onclick="showListView()">
+                                <span class="icon-list">▤</span> 목록
+                            </span>
+                            <span class="nav-item">
+                                <i class="arrow-left">&lt;</i> 이전글
+                            </span>
+                            <span class="nav-item">
+                                다음글 <i class="arrow-right">&gt;</i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Content View -->
+                    <div class="view-list" id="view-list">
+                        <!-- Content will be injected here -->
+                    </div>
+
+                    <!-- Detail View -->
+                    <div class="view-detail" id="view-detail" style="display:none; height:100%; overflow-y:auto;">
+                        <div id="detail-render-area">
+                            <!-- Detail content will be injected here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-wiki" style="margin-top: 80px;">
+            <h2 style="border-bottom: 2px solid #333; padding-bottom: 10px;">03. 브랜드 위키(i-FEED) 프로토타입</h2>
+
+            <div class="wiki-callout">
+                💡 본 프로토타입은 GEO를 통해 외부 확산되었던 매거진 콘텐츠를 <strong>'브랜드 위키'</strong> 형식으로 재구성한 것이며, 향후 콘텐츠의 정보 전달력과 확장성을
+                고도화하기 위한 방향성을 제시합니다.
+            </div>
+
+            <div class="wiki-container">
+                <!-- 상단 헤더 -->
+                <div class="wiki-header">
+                    <h1>피핀 (Pippin)</h1>
+                </div>
+
+                <!-- 우측 요약 정보창 (InfoBox) -->
+                <div class="wiki-info-box">
+                    <div class="img-placeholder"
+                        style="height: 100px; margin-bottom: 10px; background-image: url('https://www.pippin.co.kr/shopimages/pippin/logo.png'); background-size: contain; background-repeat: no-repeat; background-position: center;">
+                        브랜드 로고</div>
+                    <table class="wiki-info-table">
+                        <tr>
+                            <th>유형</th>
+                            <td>여성 패션 전문 브랜드</td>
+                        </tr>
+                        <tr>
+                            <th>설립</th>
+                            <td>2004년 (대한민국)</td>
+                        </tr>
+                        <tr>
+                            <th>창립자</th>
+                            <td>임유진</td>
+                        </tr>
+                        <tr>
+                            <th>주요 품목</th>
+                            <td>자체 제작 의류(매직팬츠), 데일리룩, 패션 잡화</td>
+                        </tr>
+                        <tr>
+                            <th>철학</th>
+                            <td>이지 & 데일리(Easy & Daily), 합리적인 가치</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- 도입부 요약 -->
+                <div class="wiki-summary">
+                    <strong>피핀(Pippin)</strong>은 2004년 설립된 대한민국의 1세대 여성 패션 온라인 브랜드입니다. '일상에서 가장 손이 자주 가는 옷'을 지향하며, 한국
+                    여성의 체형에 최적화된 자체 제작 라인을 통해 합리적인 가격과 높은 품질의 데일리룩을 제안합니다. 특히 편안한 착용감을 극대화한 기능성 의류로 두터운 충성 고객층을 보유하고
+                    있습니다.
+                </div>
+
+                <!-- 목차 (TOC) -->
+                <div class="wiki-toc">
+                    <div class="wiki-toc-title">목차</div>
+                    <ul>
+                        <li>1. <a href="#wiki-1">브랜드 이름의 의미</a></li>
+                        <li>2. <a href="#wiki-2">설립 및 성장 배경</a></li>
+                        <li>3. <a href="#wiki-3">디자인 및 경영 철학</a></li>
+                        <li>4. <a href="#wiki-4">대표 상품 (Signature)</a></li>
+                        <li>5. <a href="#wiki-5">최근 활동 및 소식</a></li>
+                        <li>6. <a href="#wiki-6">관련 매거진 콘텐츠</a></li>
+                    </ul>
+                </div>
+
+                <!-- 본문 내용 -->
+                <div class="wiki-section" id="wiki-1">
+                    <h3 class="wiki-section-title">1. 브랜드 이름의 의미</h3>
+                    <div class="wiki-content">
+                        <strong>'피핀(Pippin)'</strong>은 사전적으로 <strong>'매우 훌륭한 사람이나 사물'</strong> 또는 <strong>'작고 신선한
+                            사과'</strong>라는 의미를 담고
+                        있습니다. 이는 고객들에게 언제나
+                        신선하고 기분 좋은 패션
+                        경험을 제공하며, 일상 속에서 작지만 확실한 가치를 전달하겠다는 브랜드의 의지를 상징합니다.
+                    </div>
+                </div>
+
+                <div class="wiki-section" id="wiki-2">
+                    <h3 class="wiki-section-title">2. 설립 및 성장 배경</h3>
+                    <div class="wiki-content">
+                        대한민국 온라인 쇼핑몰 시장의 태동기인 2000년대 초반, 화려하기만 한 옷보다는 "누구나 매일 편하게 입을 수 있는 옷"의 필요성을 느껴 설립되었습니다. 초기에는 큐레이션
+                        중심의 쇼핑몰로 시작했으나, 고객들의 피드백을 직접 반영하기 위해 자체 제작 시스템을 구축하며 독자적인 브랜드로서 입지를 굳혔습니다.
+                    </div>
+                </div>
+
+                <div class="wiki-section" id="wiki-3">
+                    <h3 class="wiki-section-title">3. 디자인 및 경영 철학</h3>
+                    <div class="wiki-content">
+                        피핀의 핵심 철학은 <strong>'Easy & Daily'</strong>입니다. 단순히 유행을 쫓는 것이 아니라, 활동성을 고려한 패턴 설계와 세탁 후에도 변형이 적은
+                        탄탄한 소재 선별을
+                        최우선으로 합니다. "옷은 입었을 때 가장 편안해야 한다"는 신념 아래, 20대부터 40대까지 폭넓은 연령층이 공감할 수 있는 실용적인 아름다움을 추구합니다.
+                    </div>
+                </div>
+
+                <div class="wiki-section" id="wiki-4">
+                    <h3 class="wiki-section-title">4. 대표 상품 (Signature)</h3>
+                    <div class="wiki-content">
+                        <ul>
+                            <li><strong>매직팬츠 (Magic Pants):</strong> 피핀을 상징하는 베스트셀러로, 놀라운 신축성과 체형 보정 효과를 동시에 제공하여 '인생
+                                바지'라는 별칭을 얻었습니다.</li>
+                            <li><strong>피핀 메이드 (Pippin Made):</strong> 원단 선정부터 디자인, 공정까지 피핀이 직접 관리하는 자체 제작 라인으로, 고퀄리티의
+                                베이직 아이템들을 선보입니다.</li>
+                            <li><strong>데일리 에센셜 니트:</strong> 피부에 자극이 없는 부드러운 소재와 다양한 컬러 팔레트로 매 시즌 높은 판매고를 기록하는 품목입니다.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="wiki-section" id="wiki-5">
+                    <h3 class="wiki-section-title">5. 최근 활동 및 소식</h3>
+                    <div class="wiki-content">
+                        최근 피핀은 온라인 자사몰을 넘어 지그재그, 에이블리 등 주요 패션 플랫폼과의 협업을 통해 접점을 넓히고 있습니다. 또한, 친환경 포장재 도입과 지속 가능한 소재 활용을
+                        검토하는 등 환경 사회적 책임을 다하는 브랜드로 거듭나기 위한 변화를 시도하고 있으며, 시즌별 감도 높은 룩북을 통해 라이프스타일 큐레이터로서의 역할을 강화하고 있습니다.
+                    </div>
+                </div>
+
+                <div class="wiki-section" id="wiki-6">
+                    <h3 class="wiki-section-title">6. 관련 매거진 콘텐츠</h3>
+                    <div class="wiki-content" style="margin-bottom: 10px;">
+                        피핀과 관련된 최신 패션 트렌드 및 스타일링 가이드입니다. 각 블록을 클릭하면 매거진의 상세 페이지에서 전체 내용을 확인하실 수 있습니다.
+                    </div>
+                    <div class="wiki-magazine-grid">
+                        <div class="wiki-magazine-item" onclick="jumpToMagazineDetail(1)">
+                            <div class="thumb img-placeholder">이미지</div>
+                            <div class="info">
+                                <div class="title">올겨울 2030 직장인이 주목하는 '컴포트 오피스룩' 트렌드</div>
+                                <div class="meta">패션트렌드 매거진 · 2026.01.29</div>
+                            </div>
+                        </div>
+                        <div class="wiki-magazine-item" onclick="jumpToMagazineDetail(2)">
+                            <div class="thumb img-placeholder">이미지</div>
+                            <div class="info">
+                                <div class="title">연말 파티 시즌을 구원할 '꾸안꾸' 벨벳 원피스 코디법</div>
+                                <div class="meta">스타일 위클리 · 2026.01.25</div>
+                            </div>
+                        </div>
+                        <div class="wiki-magazine-item" onclick="jumpToMagazineDetail(4)">
+                            <div class="thumb img-placeholder">이미지</div>
+                            <div class="info">
+                                <div class="title">2026SS 런웨이에서 포착한 '긱시크' 안경 코디법</div>
+                                <div class="meta">스타일 인사이더 · 2026.01.15</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const magazineContents = [
+            {
+                id: 1,
+                title: "올겨울 2030 직장인이 주목하는 '컴포트 오피스룩' 트렌드",
+                body: "최근 재택과 출근이 병행되는 유연 근무제가 확산되면서, 격식은 차리되 편안함을 극대화한 '컴포트 오피스룩'이 새로운 트렌드로 자리 잡고 있습니다. 그중에서도 단연 돋보이는 아이템은 바로 '타이넥 니트 원피스'입니다. 부드러운 소재감과 세련된 실루엣으로 출근길뿐만 아니라 데이트룩으로도 손색이 없다는 평입니다...",
+                image: "https://images.unsplash.com/photo-1591085686350-798c0f9faa7f?auto=format&fit=crop&w=800&q=80",
+                author: "패션트렌드 매거진",
+                date: "2026.01.29"
+            },
+            {
+                id: 2,
+                title: "연말 파티 시즌을 구원할 '꾸안꾸' 벨벳 원피스 코디법",
+                body: "화려한 파티도 좋지만, 일상에서도 활용 가능한 '꾸민 듯 안 꾸민 듯'한 스타일링이 대세입니다. 벨벳 소재의 부드러운 광택이 주는 고급스러움에 캐주얼한 가디건을 매치해보세요. 특별한 날엔 골드 액세서리로 포인트를 주는 것만으로도 충분합니다.",
+                image: "https://images.unsplash.com/photo-1549062300-19950d7c34f2?auto=format&fit=crop&w=800&q=80",
+                author: "스타일 위클리",
+                date: "2026.01.25"
+            },
+            {
+                id: 3,
+                title: "한파에도 끄떡없는 '울 캐시미어' 코트 선택 가이드",
+                body: "영하의 온도에서도 스타일과 보온성을 모두 챙기고 싶다면 소재 선별이 가장 중요합니다. 울과 캐시미어의 적절한 혼용률이 선사하는 가벼움과 따뜻함, 그리고 유행을 타지 않는 타임리스 디자인의 코트 하나로 겨울 준비를 끝내보세요.",
+                image: "https://images.unsplash.com/photo-1539533018447-63fcce2678e3?auto=format&fit=crop&w=800&q=80",
+                author: "트렌드 리포트",
+                date: "2026.01.20"
+            },
+            {
+                id: 4,
+                title: "2026SS 런웨이에서 포착한 '긱시크' 안경 코디법",
+                body: "지적인 분위기와 엉뚱한 매력을 동시에 잡고 싶다면 '긱시크(Geek Chic)' 스타일링에 도전해보세요. 뿔테 안경과 슬림한 가디건, 그리고 단정한 셔츠의 조합은 이번 시즌 가장 힙한 오피스 루틴입니다. 포인트는 너무 꾸미지 않은 듯한 자연스러움에 있습니다.",
+                image: "https://images.unsplash.com/photo-1511499767350-a15947275847?auto=format&fit=crop&w=800&q=80",
+                author: "스타일 인사이더",
+                date: "2026.01.15"
+            },
+            {
+                id: 5,
+                title: "비 오는 날에도 스타일리시하게, '레인 부츠' 코디의 정석",
+                body: "장마철 필수 아이템으로 등극한 레인 부츠, 이제는 패션 아이템으로 확실히 자리 잡았습니다. 짧은 쇼츠나 미니스커트와 매치하여 다리를 길어 보이게 하거나, 롱 원피스와 믹스매치하여 개성 있는 룩을 연출해보세요. 고무 소재 특유의 광택을 활용한 톤온톤 매치도 추천합니다.",
+                image: "https://images.unsplash.com/photo-1582738411706-bfc9218acdba?auto=format&fit=crop&w=800&q=80",
+                author: "데일리 패션",
+                date: "2026.01.10"
+            },
+            {
+                id: 6,
+                title: "무채색 코디에 생기를 불어넣는 '레드 포인트' 가방 스타일링",
+                body: "단조로운 겨울 코디가 지겨워졌다면 강렬한 레드 컬러의 가방 하나로 분위기를 반전시켜보세요. 블랙이나 그레이 톤의 코트 위에 메신저 백이나 클러치로 포인트를 주는 것만으로도 패셔너블한 인상을 남길 수 있습니다. 벨트나 구두와 색상을 맞추면 더욱 완성도 높은 코디가 됩니다.",
+                image: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80",
+                author: "트렌드 피커",
+                date: "2026.01.05"
+            }
+        ];
+
+        const contentData = magazineContents[0]; // Default content
+
+        const imageTopics = [
+            { name: "동물", img: "https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=200" },
+            { name: "사진", img: "https://images.unsplash.com/photo-1554080353-a576cf803bda?w=200" },
+            { name: "뷰티", img: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=200" },
+            { name: "차량", img: "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=200" },
+            { name: "예술", img: "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=200" },
+            { name: "여성 패션", img: "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=200" }
+        ];
+
+        let currentMedia = 'nate';
+        let currentDevice = 'pc';
+        let currentTab = 'brand';
+        let activeDetailId = null;
+
+        function updateDevice(mode) {
+            currentDevice = mode;
+            const windowEl = document.getElementById('sim-window');
+            const selector = document.getElementById('device-selector');
+            if (mode === 'mobile') windowEl.classList.add('mobile');
+            else windowEl.classList.remove('mobile');
+            Array.from(selector.children).forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function updateMedia(media) {
+            // This simulation is now fixed to Nate style
+            switchTab('brand');
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+
+            // Sync navigation tabs inside simulator
+            document.querySelectorAll('.nate-nav-item').forEach(t => t.classList.remove('active'));
+            const activeTab = document.getElementById(`tab-${tab}`);
+            if (activeTab) activeTab.classList.add('active');
+
+            // Sync config selector buttons
+            const configSelector = document.getElementById('config-tab-selector');
+            if (configSelector) {
+                Array.from(configSelector.children).forEach(btn => {
+                    const btnTab = btn.getAttribute('onclick').match(/'([^']+)'/)[1];
+                    if (btnTab === tab) btn.classList.add('active');
+                    else btn.classList.remove('active');
+                });
+            }
+
+            showListView();
+            renderContent();
+        }
+
+        function renderContent() {
+            const list = document.getElementById('view-list');
+            list.innerHTML = '';
+            list.className = 'view-list fade-in';
+            list.style.padding = '0'; // For Nate list style, remove padding
+
+            if (currentTab === 'home') {
+                renderHomeTab(list);
+            } else if (currentTab === 'talk') {
+                renderTalkTab(list);
+            } else if (currentTab === 'fan') {
+                renderFanTab(list);
+            } else if (currentTab === 'brand') {
+                renderBrandWikiTab(list);
+            }
+        }
+
+        function renderHomeTab(container) {
+            container.innerHTML = `
+                <div class="nate-home-container">
+                    <div class="img-placeholder home-banner">BANNER 이미지</div>
+                    
+                    <div class="home-top-grid">
+                        <div class="home-top-card">
+                            <div class="img-placeholder thumb">이미지</div>
+                            <div class="title">웬만한 연말무대 보다 나은 여돌 콜라보 조합</div>
+                        </div>
+                        <div class="home-top-card">
+                            <div class="img-placeholder thumb">이미지</div>
+                            <div class="title">도서관 사서가 먹은 1월의 점심 도시락</div>
+                        </div>
+                        <div class="home-top-card">
+                            <div class="img-placeholder thumb">이미지</div>
+                            <div class="title">둘 중에 나 옷 좀 골라주라</div>
+                        </div>
+                    </div>
+
+                    <div class="home-talk-sections">
+                        <div class="talk-section">
+                            <div class="talk-section-title">오늘의 톡 <span>+ 더보기</span></div>
+                            <div class="talk-list">
+                                <div class="talk-list-item">가족 의사는 묻지도 않고 남들한테... <span class="count">(11)</span></div>
+                                <div class="talk-list-item">진지하게 나한테 문제 있는 건지... <span class="count">(0)</span></div>
+                                <div class="talk-list-item">날 좋아하긴 하지만 관계가 더 깊... <span class="count">(8)</span></div>
+                                <div class="talk-list-item">퇴사할 때 사유 뭐라고 하고 퇴사... <span class="count">(5)</span></div>
+                                <div class="talk-list-item">6학년 남자아이 따돌림 관련 엄마... <span class="count">(3)</span></div>
+                            </div>
+                        </div>
+                        <div class="talk-section">
+                            <div class="talk-section-title">베스트 톡 <span>1/4 &lt; &gt;</span></div>
+                            <div class="talk-list">
+                                <div class="talk-list-item">동창회는 60대에 가야 하는 이유 <span class="count">(108)</span></div>
+                                <div class="talk-list-item">지금 일본에서 학폭 이슈가 미친... <span class="count">(43)</span></div>
+                                <div class="talk-list-item">두폰쿠사러 서울까지 감ㅋㅋ <span class="count">(51)</span></div>
+                                <div class="talk-list-item">솔로지옥 덱스 vs 임수빈 <span class="count">(151)</span></div>
+                                <div class="talk-list-item">옷 사고나면 세탁하고입어? <span class="count">(224)</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderTalkTab(container) {
+            container.innerHTML = `
+                <div class="talk-container">
+                    <div class="img-placeholder home-banner" style="height:120px; background:#111; color:#fff;">COUPANG FASHION BANNER 이미지</div>
+                    
+                    <div class="talk-top-grid">
+                        ${[1, 2, 3, 4, 5].map(i => `
+                            <div class="talk-top-card">
+                                <div class="talk-category-card">10대 이야기 | ㅇㅇ</div>
+                                <div class="img-placeholder talk-thumb">이미지</div>
+                                <div class="title" style="padding-top:5px; font-size:11px;">교환 학생으로 미국 왔는데...</div>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <div class="talk-main-layout">
+                        <div class="talk-left-col">
+                            <div class="talk-column-title">오늘의 톡 <span>+ 더보기</span></div>
+                            <div class="talk-list" style="margin-bottom:30px;">
+                                <div class="talk-list-item">[혼자하는말] 내가 살아가는 이유 <span class="count">(18)</span></div>
+                                <div class="talk-list-item">다들 친정 엄마와 사이좋으신가.. <span class="count">(47)</span></div>
+                                <div class="talk-list-item">패키지여행 많이 해보신 분들의.. <span class="count">(43)</span></div>
+                                <div class="talk-list-item">삶이 빡빡하니 같이 빡빡해진 인.. <span class="count">(11)</span></div>
+                            </div>
+                            <div class="talk-column-title">새로운 베플 등장 <span>+ 더보기</span></div>
+                            <div class="talk-list">
+                                <div class="talk-list-item"><span style="color:#ff3000; font-weight:bold;">베플</span> 성한빈 사태 정확히 예측했던.. <span class="count">(74)</span></div>
+                                <div class="talk-list-item"><span style="color:#ff3000; font-weight:bold;">베플</span> 잊고 내릴 뻔 마당에 막식수 하.. <span class="count">(12)</span></div>
+                            </div>
+                        </div>
+
+                        <div class="talk-center-col">
+                            <div class="talk-column-title">톡커들의 선택 <span>랭킹옵션 ∨</span></div>
+                            <div class="talk-list">
+                                ${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => `
+                                    <div class="talk-list-item">
+                                        <span><strong style="color:#ff3000; margin-right:8px;">${i}</strong> 피부 2달만에 진짜 개좋아짐</span>
+                                        <span class="count">(${Math.floor(Math.random() * 200)})</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div class="talk-sidebar">
+                            <button class="talk-sidebar-btn">✎ 톡톡쓰기</button>
+                            <div class="sidebar-section">
+                                <div class="sidebar-title">⭐ 즐겨찾기</div>
+                                <div style="font-size:11px; color:#999;">다양한 톡톡 채널을 이용해 보세요!</div>
+                            </div>
+                            <div class="sidebar-section">
+                                <div class="sidebar-title">톡톡 카데고리 <span style="float:right; color:#ff3000;">▲</span></div>
+                                <div class="talk-category-grid">
+                                    <span>사는얘기</span>
+                                    <span>10대 이야기</span>
+                                    <span>20대 이야기</span>
+                                    <span>30대 이야기</span>
+                                    <span>40대 이야기</span>
+                                    <span>남녀커플 이야기</span>
+                                    <span>결혼/시집/친정</span>
+                                    <span>워킹맘/육아</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderFanTab(container) {
+            container.innerHTML = `
+                <div class="fan-container">
+                    <div class="img-placeholder home-banner">BANNER 이미지</div>
+                    
+                    <div class="my-fan-banner">
+                        <div class="text"><span style="color:#ff3000;">my</span> 팬톡을 설정해 보세요! <span style="font-size:12px; margin-left:10px; color:#999;">MY팬톡을 설정하고 내가 원하는 아이돌 톡만 모아보세요!</span></div>
+                        <button class="btn">MY팬톡설정</button>
+                    </div>
+
+                    <div class="talk-main-layout">
+                        <div class="fan-main-content" style="grid-column: span 2;">
+                            <div class="img-placeholder fan-pink-banner">10대 뷰티톡 PINK BANNER 이미지</div>
+
+                            <div class="fan-top10-layout">
+                                <div class="top10-section">
+                                    <div class="top10-title">인기채널 TOP10 <span style="font-size:11px; color:#999;">1/2 &lt; &gt;</span></div>
+                                    <div class="top10-list">
+                                        ${[
+                    { b: '좋은글', t: '최근에 새로운 연애...' },
+                    { b: '군대', t: '공항 출국' },
+                    { b: 'NCT드림', t: '제노 2005년 데뷔면...' },
+                    { b: '프듀X', t: '만약에 엑스원 조작...' },
+                    { b: '이진혁', t: '진혁이 요즘 셀카 진...' }
+                ].map((item, i) => `
+                                            <div class="top10-item">
+                                                <span class="top10-rank">${i + 1}</span>
+                                                <span class="top10-badge">${item.b}</span>
+                                                <span class="text">${item.t}</span>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                                <div class="top10-section">
+                                    <div class="top10-title">급상승 채널 TOP10 <span style="font-size:11px; color:#999;">1/2 &lt; &gt;</span></div>
+                                    <div class="top10-list">
+                                        ${[
+                    { b: '군대', t: '하필이면 딱 이시기에' },
+                    { b: 'MBTI', t: '엔프제 있나요' },
+                    { b: '생활정보', t: '인천공항 1터미널 2터...' },
+                    { b: '르세라핌', t: '얘 김숙이야?' },
+                    { b: 'ALD1', t: '입덕한지 얼마 안되서...' }
+                ].map((item, i) => `
+                                            <div class="top10-item">
+                                                <span class="top10-rank">${i + 1}</span>
+                                                <span class="top10-badge" style="border-color:#666; color:#666;">${item.b}</span>
+                                                <span class="text">${item.t}</span>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="fan-bottom-layout">
+                                <div class="bottom-section">
+                                    <div class="talk-column-title">최신 이슈팬톡 <span>더보기 ></span></div>
+                                    <div class="issue-box">
+                                        <div style="margin-bottom:10px; font-weight:700;">우리나라 통신사 물먹는거 너무 꼬시다~</div>
+                                        <div style="font-size:12px; color:#999;">👍 0  👎 1  💬 1</div>
+                                    </div>
+                                </div>
+                                <div class="bottom-section">
+                                    <div class="talk-column-title">새로운 베플등장 <span>1/1 &lt; &gt;</span></div>
+                                    <div class="talk-list">
+                                        <div class="talk-list-item"><span style="color:#ff3000; font-weight:bold;">베플</span> 전현무는 왜 그런거래 처방전 왜.. <span class="count">(31)</span></div>
+                                        <div class="talk-list-item"><span style="color:#ff3000; font-weight:bold;">베플</span> 주사이모는 다른 사람이야 <span class="count">(31)</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="talk-sidebar">
+                            <button class="talk-sidebar-btn">✎ 팬톡쓰기</button>
+                            <div class="sidebar-section">
+                                <div class="sidebar-title">⭐ 즐겨찾기</div>
+                                <div style="font-size:11px; color:#999;">다양한 팬톡 채널을 즐겨찾기에서 이용해 보세요!</div>
+                            </div>
+                            <div class="sidebar-section">
+                                <div class="sidebar-title">팬톡카테고리 <span style="float:right; color:#ff3000;">▲</span></div>
+                                <div style="font-size:12px; color:#666; padding:10px 0; border-top:1px solid #eee;">
+                                    💬 <strong>이슈팬톡</strong> <span style="font-size:11px; color:#999;">연예이슈댓글 토론판</span>
+                                </div>
+                                <div style="border-top:1px solid #eee; padding-top:10px;">
+                                    <div style="font-size:12px; font-weight:700; margin-bottom:10px;">☆ 팬톡채널 <span style="float:right; font-weight:400; color:#999; font-size:10px;">인기순 | 최신순</span></div>
+                                    <div class="fan-sidebar-search">
+                                        <input type="text">
+                                        <span class="icon">🔍</span>
+                                    </div>
+                                    <div class="fan-channel-list">
+                                        <span>[좋은글] <span class="score">★2</span></span>
+                                        <span>[군대] <span class="score">★1,401</span></span>
+                                        <span>[NCT드림] <span class="score">★4,741</span></span>
+                                        <span>[이진혁] <span class="score">★212</span></span>
+                                        <span>[방탄소년단] <span class="score">★32,199</span></span>
+                                    </div>
+                                </div>
+                                <div class="img-placeholder" style="height:80px; margin-top:15px; background:#f9f9f9;">NATE 게임 AD 이미지</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderBrandWikiTab(container) {
+            const listContainer = document.createElement('div');
+            listContainer.className = 'nate-pann-list';
+
+            magazineContents.forEach(content => {
+                const item = document.createElement('div');
+                item.className = 'pann-list-item';
+                item.onclick = () => showDetailView(content.id);
+                item.innerHTML = `
+                    <div class="pann-list-thumb img-placeholder">
+                        이미지
+                    </div>
+                    <div class="pann-list-content">
+                        <div class="pann-list-title">${content.title}</div>
+                        <div class="pann-list-summary">${content.body}</div>
+                        <div class="pann-list-meta">${content.author} · 추천 48 · 조회 2.4k</div>
+                    </div>
+                `;
+                listContainer.appendChild(item);
+            });
+            container.appendChild(listContainer);
+        }
+
+        function showListView() {
+            document.getElementById('view-list').style.display = 'block';
+            document.getElementById('view-detail').style.display = 'none';
+            document.getElementById('detail-nav').style.display = 'none';
+        }
+
+        function showDetailView(id) {
+            const content = id ? magazineContents.find(c => c.id === id) : contentData;
+
+            document.getElementById('view-list').style.display = 'none';
+            document.getElementById('view-detail').style.display = 'block';
+            document.getElementById('detail-nav').style.display = 'flex';
+
+            document.getElementById('view-detail').scrollTop = 0;
+
+            const renderArea = document.getElementById('detail-render-area');
+            renderArea.className = 'fade-in';
+            renderArea.innerHTML = `
+                <div class="nate-detail-wrap">
+                    <div class="nate-detail-title">${content.title}</div>
+                    <div class="nate-detail-info">
+                        <div><strong>${content.author}</strong> | ${content.date}</div>
+                        <div>조회 3,412  추천 124</div>
+                    </div>
+                    
+                    <div class="nate-detail-body">
+                        <div class="img-placeholder" style="width:100%; height:250px; margin-bottom:15px;">이미지</div>
+                        <p>${content.body}</p>
+                        <br>
+                        <p>이 게시글은 네이트판 패션톡에서 독점 제공하는 콘텐츠입니다. 최신 트렌드와 상세 정보는 아래 버튼을 통해 확인하실 수 있습니다.</p>
+                    </div>
+
+                    <div class="up-vote-area">
+                        <div class="up-vote-btn">
+                            <strong>124</strong>
+                            <span>추천</span>
+                        </div>
+                        <div class="up-vote-btn" style="border-color:#eee;">
+                            <strong style="color:#666;">2</strong>
+                            <span>반대</span>
+                        </div>
+                    </div>
+
+                    <div class="nate-detail-footer">
+                        <button style="width: 100%; padding: 14px; background: #ff3000; color: #fff; border: none; border-radius: 6px; font-size: 14px; font-weight: 700; cursor: pointer;">
+                            Editor's Pick 아이템 정보 확인하기
+                        </button>
+                        <div style="font-size:12px; color:#999; text-align:center;">
+                            본 콘텐츠의 저작권은 ${content.author} 및 GEO 패션톡에 있습니다.
+                        </div>
+                    </div>
+                    
+                    <div style="height: 60px;"></div>
+                </div>
+            `;
+        }
+
+        function jumpToMagazineDetail(id) {
+            // 1. 시뮬레이터 탭을 'brand'(패션톡)로 전환
+            switchTab('brand');
+            // 2. 해당 ID의 상세 페이지 노출
+            showDetailView(id);
+            // 3. 시뮬레이터 위치로 부드럽게 스크롤
+            document.getElementById('section-preview').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        function initSidebarHighlight() {
+            const sidebarLinks = document.querySelectorAll('.sidebar ul li a');
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function () {
+                    sidebarLinks.forEach(a => a.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        }
+
+        function scrollToPos(y) {
+            const scroller = document.querySelector('main');
+            if (!scroller) return;
+            scroller.scrollTo({
+                top: y === 999999 ? scroller.scrollHeight : y,
+                behavior: 'smooth'
+            });
+        }
+
+        window.onload = () => {
+            renderContent();
+            initSidebarHighlight();
+        };
+    </script>
+    <!-- Floating Scroll Buttons -->
+    <div class="scroll-buttons">
+        <div class="scroll-btn top" onclick="scrollToPos(0)" title="맨 위로">▲</div>
+        <div class="scroll-btn bottom" onclick="scrollToPos(999999)" title="맨 아래로">▼</div>
+    </div>
+</body>
+
+</html>
