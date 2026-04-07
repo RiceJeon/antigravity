@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>광고주 자사몰 매거진 연동 프로토타입 - 핀터레스트 스타일</title>
+    <!-- 스타일링을 위한 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 아이콘을 위한 Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* 모달이 열렸을 때 배경 스크롤 방지 */
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        /* 썸네일 호버 효과 */
+        .magazine-card:hover .thumb-img {
+            transform: scale(1.05);
+        }
+
+        /* 핀터레스트 스타일 상세 페이지 스크롤바 커스텀 */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: rgba(156, 163, 175, 0.5);
+            border-radius: 20px;
+        }
+
+        /* 상세 페이지 애니메이션 */
+        .view-transition {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+
+        #detail-view.hidden {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        #detail-view:not(.hidden) {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 font-sans text-gray-800">
+
+    <!-- 가상의 쇼핑몰 헤더 -->
+    <header class="bg-white shadow-sm sticky top-0 z-10">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold tracking-tighter">Pippin <span
+                    class="text-sm font-normal text-gray-400"></span></div>
+            <nav class="hidden md:flex space-x-6 text-sm font-medium">
+                <a href="#" class="hover:text-pink-500">BEST</a>
+                <a href="#" class="hover:text-pink-500">NEW</a>
+                <a href="#" class="hover:text-pink-500">OUTER</a>
+                <a href="#" class="hover:text-pink-500">TOP</a>
+                <a href="#" class="text-pink-500 font-bold border-b-2 border-pink-500 pb-1">STYLE MAGAZINE</a>
+            </nav>
+            <div class="flex space-x-4">
+                <i data-lucide="search" class="w-5 h-5 text-gray-500"></i>
+                <i data-lucide="shopping-bag" class="w-5 h-5 text-gray-500"></i>
+            </div>
+        </div>
+        <!-- 모바일 탭 메뉴 -->
+        <div class="md:hidden flex overflow-x-auto px-4 py-2 border-t whitespace-nowrap scrollbar-hide">
+            <a href="#" class="px-4 py-1 text-sm text-gray-500">BEST</a>
+            <a href="#" class="px-4 py-1 text-sm text-gray-500">NEW</a>
+            <a href="#" class="px-4 py-1 text-sm text-gray-500">OUTER</a>
+            <a href="#" class="px-4 py-1 text-sm text-gray-500">TOP</a>
+            <a href="#" class="text-pink-500 font-bold border-b-2 border-pink-500 pb-1">STYLE MAGAZINE</a>
+        </div>
+    </header>
+
+    <!-- 매거진 리스트 메인 영역 -->
+    <main class="max-w-6xl mx-auto px-4 py-8">
+        <!-- 1. 목록 뷰 (List View) -->
+        <section id="list-view">
+            <div class="mb-8 text-center">
+                <h1 class="text-3xl font-serif mb-2">Style Magazine</h1>
+                <p class="text-gray-500 text-sm">{{광고주명}}의 아이템이 소개된 다양한 매거진 콘텐츠를 만나보세요.</p>
+            </div>
+
+            <!-- 콘텐츠 리스트 그리드 -->
+            <div id="magazine-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                <!-- 자바스크립트로 리스트가 랜더링 될 영역 -->
+            </div>
+
+            <div class="mt-10 text-center">
+                <button
+                    class="px-8 py-3 border border-gray-300 text-sm font-medium hover:bg-gray-100 transition-colors rounded-full">
+                    더보기 (More)
+                </button>
+            </div>
+        </section>
+
+        <!-- 2. 상세 페이지 뷰 (Detail View) -->
+        <section id="detail-view" class="hidden view-transition pt-4">
+            <!-- 좌측 상단 뒤로가기 버튼 -->
+            <div class="mb-6">
+                <button id="back-to-list-btn"
+                    class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-full shadow-sm hover:bg-gray-50 transition-all text-sm font-bold text-gray-700">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                    목록으로 돌아가기
+                </button>
+            </div>
+
+            <!-- 상세 콘텐츠 영역 -->
+            <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
+                <div id="detail-content-area">
+                    <!-- JS에서 동적 랜더링 -->
+                </div>
+
+                <!-- 연관 추천 콘텐츠 (More like this) 영역 -->
+                <div class="px-5 md:px-10 py-10 bg-gray-50 border-t border-gray-100">
+                    <h3 class="text-xl font-bold mb-6 text-gray-800">추천 콘텐츠</h3>
+                    <div id="related-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                        <!-- JS에서 동적 랜더링 -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Lucide 아이콘 초기화
+        lucide.createIcons();
+
+        // 1. 가상의 매거진 데이터 (AI Summary 데이터 추가)
+        const magazineData = [
+            {
+                id: 1,
+                title: "썸남 심쿵 유발! 상황별 데이트룩 BEST 3",
+                thumbUrl: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                mediaName: "네이트 판",
+                date: "2026.05.20",
+                tags: ["봄데이트룩", "20대여친룩", "가디건", "원피스"],
+                aiSummary: `
+                    <p class="font-bold mb-2">봄 데이트 코디 핵심 요약:</p>
+                    <ol class="list-none space-y-1">
+                        <li>1. <span class="text-pink-500 font-medium">소개팅/첫 만남</span>: 과한 노출보다 파스텔톤 가디건으로 화사함 강조.</li>
+                        <li>2. <span class="text-pink-500 font-medium">한강 피크닉</span>: 활동성을 고려한 와이드 데님 + 스트라이프 티셔츠.</li>
+                        <li>3. <span class="text-pink-500 font-medium">기념일 디너</span>: 쇄골 라인이 보이는 오프숄더 원피스로 우아한 분위기 연출.</li>
+                    </ol>
+                `,
+                content: `
+                    <p class="mb-4 font-bold text-gray-600 text-[17px]">"이번 주말에 뭐 입지?"</p>
+                    <p class="mb-4">옷장은 꽉 찼는데 막상 입을 옷이 없어 고민인 무드님들을 위해 준비했어요. 장소와 분위기에 딱 맞춰, 센스 있다는 소리 들을 수 있는 실패 없는 데이트 공식을 소개합니다.</p>
+                    <p class="mb-4">특히 이 가디건과 스커트 조합은 체형을 예쁘게 잡아주어 많은 분들의 사랑을 받고 있답니다. 데이트 상대의 마음을 심쿵하게 만들 준비 되셨나요? 러블리한 파스텔 톤으로 얼굴빛을 확 살려주는 마법의 아이템들을 소개합니다.</p>
+                    <img src="https://images.unsplash.com/photo-1434389670869-c87520f48da6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full rounded-xl my-6" alt="본문 이미지">
+                    <p>지금 바로 피핀에서 이 사랑스러운 룩을 만나보세요!</p>
+                `
+            },
+            {
+                id: 2,
+                title: "꾸안꾸의 정석, 편안함과 스타일을 동시에 잡는 홈웨어",
+                thumbUrl: "https://images.unsplash.com/photo-1522228115018-d838bcce5c3a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                mediaName: "1분 뉴스",
+                date: "2026.05.18",
+                tags: ["홈웨어", "꾸안꾸", "가디건", "데일리룩"],
+                aiSummary: `
+                    <p class="font-bold mb-2">꾸안꾸 홈웨어 핵심 요약:</p>
+                    <ul class="list-disc pl-4 space-y-1">
+                        <li>갑작스러운 손님 방문에도 당황하지 않는 <span class="text-pink-500 font-medium">라운지웨어 세트</span>.</li>
+                        <li>부드러운 촉감으로 수면의 질까지 올려주는 소재 선택.</li>
+                        <li>가벼운 외출까지 커버 가능한 <span class="text-pink-500 font-medium">원마일웨어</span> 코디법.</li>
+                    </ul>
+                `,
+                content: "<p>집에서도 예쁘게 입고 싶은 날이 있죠. 갑자기 찾아온 택배 기사님 앞에서도 당당할 수 있는, 편안하지만 후줄근하지 않은 꾸안꾸 홈웨어 스타일링 팁을 알려드립니다. 부드러운 소재감의 가디건 하나면 집콕 라이프의 질이 달라집니다.</p>"
+            },
+            {
+                id: 3,
+                title: "올 여름 휴가 준비 끝! 체형 보완 완벽 바캉스룩",
+                thumbUrl: "https://images.unsplash.com/photo-1523381294911-8d3cead13475?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                mediaName: "s-internet",
+                date: "2026.05.15",
+                tags: ["바캉스룩", "여름코디", "원피스"],
+                aiSummary: null,
+                content: "<p>휴가지에서 인생샷을 남기기 위한 필수 조건! 바로 사진에 잘 나오는 쨍한 컬러감의 원피스입니다. 팔뚝살은 가려주고 다리는 길어 보이게 만들어주는 마법의 핏을 자랑하는 피핀의 바캉스룩 베스트 아이템을 소개합니다.</p>"
+            },
+            {
+                id: 4,
+                title: "직장인 필수 시크 오피스룩 코디법 A to Z",
+                thumbUrl: "https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                mediaName: "1분 뉴스",
+                date: "2026.05.10",
+                tags: ["출근룩", "오피스룩", "데일리룩"],
+                aiSummary: `
+                    <p class="font-bold mb-2">시크 오피스룩 핵심 요약:</p>
+                    <ul class="list-disc pl-4 space-y-1">
+                        <li>회사에서 시크하게 보일 수 있는 <span class="text-pink-500 font-medium">오피스룩</span>.</li>
+                        <li>딱딱해보이지만 부드러운 촉감으로 언제든지 편하게 입을 수 있는 소재.</li>
+                        <li>데일리룩으로도 커버 가능한 <span class="text-pink-500 font-medium">원마일웨어</span> 코디법.</li>
+                    </ul>
+                `,
+                content: "<p>매일 아침 출근길, 옷장 앞에서 고민하는 시간을 확 줄여드립니다. 프로페셔널해 보이면서도 활동성이 좋은 오피스룩 코디 공식.</p>"
+            }
+        ];
+
+        // 2. 공통 카드 UI 생성 함수 (목록용)
+        function createCardHTML(item) {
+            const tagsHtml = item.tags.slice(0, 2).map(tag => `<span class="inline-block bg-white/80 backdrop-blur text-gray-600 text-[10px] px-2 py-0.5 rounded-sm">#${tag}</span>`).join('');
+
+            return `
+                <div class="relative aspect-[3/4] overflow-hidden rounded-xl bg-gray-200 shadow-sm">
+                    <img src="${item.thumbUrl}" alt="${item.title}" class="thumb-img w-full h-full object-cover transition-transform duration-500 ease-in-out">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none"></div>
+                    <div class="absolute top-2 left-2 flex gap-1 z-10">
+                        ${tagsHtml}
+                    </div>
+                    <div class="absolute bottom-0 left-0 right-0 p-3 z-10">
+                        <h3 class="text-white text-sm md:text-base font-medium leading-tight line-clamp-2 text-shadow-sm group-hover:underline decoration-white underline-offset-2">
+                            ${item.title}
+                        </h3>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 3. 메인 화면 리스트 랜더링
+        function renderMagazineList() {
+            const grid = document.getElementById('magazine-grid');
+            grid.innerHTML = '';
+
+            magazineData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'magazine-card group cursor-pointer flex flex-col transition-all hover:-translate-y-1';
+                card.onclick = () => showDetailView(item.id);
+                card.innerHTML = createCardHTML(item);
+                grid.appendChild(card);
+            });
+        }
+
+        // 4. 상세 뷰 로직
+        const listView = document.getElementById('list-view');
+        const detailView = document.getElementById('detail-view');
+        const detailContentArea = document.getElementById('detail-content-area');
+        const relatedGrid = document.getElementById('related-grid');
+        const backBtn = document.getElementById('back-to-list-btn');
+
+        // 상세 뷰 열기 및 데이터 바인딩
+        function showDetailView(itemId) {
+            const item = magazineData.find(data => data.id === itemId);
+            if (!item) return;
+
+            // 상세 뷰 노출
+            listView.classList.add('hidden');
+            detailView.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'instant' });
+
+            // --- A. 상세 본문 랜더링 ---
+            const fullTagsHtml = item.tags.map(tag => `<span class="inline-block bg-gray-100 text-gray-700 text-sm px-3 py-1.5 rounded-full cursor-pointer hover:bg-gray-200 transition-colors">#${tag}</span>`).join('');
+
+            // AI SUMMARY 영역 HTML 생성 (데이터가 있을 때만 렌더링)
+            const aiSummaryHtml = item.aiSummary ? `
+                <div class="bg-[#f8f9fa] border border-gray-100 rounded-2xl p-5 md:p-6 mb-8">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-3 h-3 rounded-full border-[2px] border-pink-400 bg-transparent"></div>
+                        <span class="text-xs font-bold text-gray-500 tracking-wide">AI SUMMARY</span>
+                    </div>
+                    <div class="text-gray-800 text-[14px] md:text-[15px] leading-relaxed break-keep">
+                        ${item.aiSummary}
+                    </div>
+                </div>
+            ` : '';
+
+            detailContentArea.innerHTML = `
+                <!-- 히어로 이미지 영역 -->
+                <div class="w-full relative">
+                    <img src="${item.thumbUrl}" class="w-full h-[400px] md:h-[500px] object-cover" alt="대표 이미지" />
+                    <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-white to-transparent"></div>
+                </div>
+                
+                <!-- 텍스트 및 메타 정보 영역 -->
+                <div class="px-5 md:px-10 pt-4 pb-8 -mt-10 relative z-10 bg-white md:rounded-t-[40px]">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-xs font-bold tracking-wide">${item.mediaName}</div>
+                        <span class="text-gray-400 text-sm">${item.date}</span>
+                    </div>
+                    
+                    <h1 class="text-2xl md:text-3xl lg:text-4xl font-extrabold mb-8 leading-tight text-gray-900 break-keep">${item.title}</h1>
+                    
+                    <!-- 🔥 AI 요약 영역 삽입 위치 (타이틀 하단, 본문 상단) -->
+                    ${aiSummaryHtml}
+
+                    <!-- 본문 내용 -->
+                    <div class="prose prose-pink max-w-none text-gray-700 text-[15px] md:text-base leading-relaxed mb-10">
+                        ${item.content || '<p>본문 내용이 없습니다.</p>'}
+                    </div>
+                    
+                    <!-- 문맥 태그 (스크롤 시 노출되는 영역) -->
+                    <div class="flex flex-wrap gap-2 mb-8 border-b pb-8 border-gray-100">
+                        ${fullTagsHtml}
+                    </div>
+
+                    <!-- 광고주 상품 구매 유도 카드 -->
+                    <div class="bg-pink-50 rounded-2xl p-4 flex gap-4 items-center cursor-pointer hover:shadow-md transition-shadow border border-pink-100" onclick="alert('광고주 상품 상세 페이지로 이동합니다.');">
+                        <img src="${item.thumbUrl}" class="w-16 h-16 md:w-20 md:h-20 object-cover rounded-xl shadow-sm" alt="상품 이미지">
+                        <div class="flex-1 min-w-0">
+                            <div class="text-xs text-pink-500 font-bold mb-1">매거진 속 그 아이템!</div>
+                            <h4 class="font-bold text-gray-900 text-sm md:text-base truncate">[PIPPIN] 베스트 스타일링 코디 세트</h4>
+                            <p class="text-gray-600 text-sm mt-1">39,900원</p>
+                        </div>
+                        <button class="bg-pink-500 text-white px-4 py-2 rounded-full text-sm font-bold whitespace-nowrap shadow-sm hover:bg-pink-600 transition-colors">
+                            구매하기
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            // --- B. 연관 콘텐츠(More like this) 랜더링 ---
+            let relatedItems = magazineData.filter(d =>
+                d.id !== item.id && d.tags.some(tag => item.tags.includes(tag))
+            );
+
+            if (relatedItems.length < 4) {
+                const others = magazineData.filter(d => d.id !== item.id && !relatedItems.includes(d));
+                relatedItems = [...relatedItems, ...others].slice(0, 4);
+            } else {
+                relatedItems = relatedItems.slice(0, 4);
+            }
+
+            relatedGrid.innerHTML = '';
+            relatedItems.forEach(relItem => {
+                const card = document.createElement('div');
+                card.className = 'magazine-card group cursor-pointer flex flex-col transition-all hover:-translate-y-1';
+                card.onclick = () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    setTimeout(() => showDetailView(relItem.id), 300);
+                };
+                card.innerHTML = createCardHTML(relItem);
+                relatedGrid.appendChild(card);
+            });
+        }
+
+        // 목록 뷰로 돌아가기
+        function showListView() {
+            detailView.classList.add('hidden');
+            listView.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'instant' });
+        }
+
+        // 이벤트 리스너
+        backBtn.addEventListener('click', showListView);
+
+        // 초기 실행
+        renderMagazineList();
+    </script>
+</body>
+
+</html>
