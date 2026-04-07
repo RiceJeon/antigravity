@@ -17,7 +17,7 @@
 
 ## 🛠️ 기술 스택 (Tech Stack)
 * **Language:** Python, JavaScript, TypeScript 등
-* **Framework:** React, FastAPI, Spring Boot 등
+* **Framework:** React, FastAPI, Spring Boot,HTML 등
 * **Database:** PostgreSQL, MongoDB 등
 * **ETC:** 사용한 외부 API나 특별한 라이브러리 (예: Google Maps API)
 
