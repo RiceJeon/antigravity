@@ -542,58 +542,1087 @@
             overflow: hidden
         }
 
-        <table>
-            <thead>
-                <tr>
-                    <th style="width: 30px;"><input type="checkbox"></th>
-                    <th>썸네일</th>
-                    <th>브랜드</th>
-                    <th>콘텐츠명</th>
-                    <th>상태</th>
-                    <th>요약</th>
-                    <th>TPO 큐레이터</th>
-                    <th>콘텐츠 생성일</th>
-                    <th>관리</th>
-                </tr>
-            </thead>
-            <tbody id="content-table-body">
-                <!-- Row template -->
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>
-                        <div class="thumb">이미지</div>
-                    </td>
-                    <td>브랜드명</td>
-                    <td style="font-weight: 500;">GEO 콘텐츠 제목 예시</td>
-                    <td><span class="badge badge-amber">대기</span></td>
-                    <td><button class="action-btn action-gray" onclick="showPage('preview')">보기</button></td>
-                    <td><button class="action-btn action-gray" onclick="showPage('preview')">보기</button></td>
-                    <td style="color: var(--gray);">2024.03.15</td>
-                    <td>
-                        <div style="display: flex; gap: 4px;">
-                            <button class="action-btn action-blue" onclick="showPage('editor')">편집</button>
-                            <button class="action-btn action-red">삭제</button>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px
+        }
 
-        <div style="display: flex; justify-content: center; margin-top: 16px;">
-            <div style="display: flex; gap: 4px;">
-                <button class="btn btn-outline" style="padding: 4px 8px;">&lt;</button>
-                <button class="btn btn-primary" style="padding: 4px 10px;">1</button>
-                <button class="btn btn-outline" style="padding: 4px 10px;">2</button>
-                <button class="btn btn-outline" style="padding: 4px 10px;">3</button>
-                <button class="btn btn-outline" style="padding: 4px 8px;">&gt;</button>
-            </div>
-        </div>
+        th {
+            background: #f9fafb;
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            color: var(--gray);
+            font-weight: 600
+        }
+
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border)
+        }
+
+        .thumb {
+            width: 48px;
+            height: 48px;
+            background: #f3f4f6;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: var(--gray)
+        }
+
+        .badge {
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 500
+        }
+
+        .badge-amber {
+            background: var(--amber-light);
+            color: var(--amber)
+        }
+
+        .badge-green {
+            background: var(--green-light);
+            color: var(--green)
+        }
+
+        .badge-blue {
+            background: var(--blue-light);
+            color: var(--blue)
+        }
+
+        .badge-red {
+            background: var(--red-light);
+            color: var(--red)
+        }
+
+        .action-btn {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all .15s
+        }
+
+        .action-blue {
+            background: var(--blue-light);
+            color: var(--blue)
+        }
+
+        .action-red {
+            background: var(--red-light);
+            color: var(--red)
+        }
+
+        .action-gray {
+            background: #f3f4f6;
+            color: #374151;
+            border-color: var(--border)
+        }
+
+        /* Preview (Summary/Curator) */
+        .preview-pane {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px
+        }
+
+        .preview-header {
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px
+        }
+
+        .summary-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #334155
+        }
+
+        .summary-tag {
+            display: inline-block;
+            background: #e2e8f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-right: 4px
+        }
+
+        /* Editor */
+        .editor-container {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 20px;
+            height: 100%
+        }
+
+        .edit-fields {
+            overflow-y: auto;
+            padding-right: 10px
+        }
+
+        .field-group {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px
+        }
+
+        .field-label {
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .input-text {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 13px;
+            margin-bottom: 10px
+        }
+
+        .textarea {
+            width: 100%;
+            height: 100px;
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 13px;
+            resize: none
+        }
+
+        .mobile-preview {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .05)
+        }
+
+        .mobile-screen {
+            flex: 1;
+            background: #f8f9fa;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            overflow-y: auto
+        }
+
+        /* Utils */
+        .hide {
+            display: none !important
+        }
+
+        .show {
+            display: block !important
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, .5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000
+        }
+
+        .modal {
+            background: var(--white);
+            border-radius: 12px;
+            width: 500px;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+            padding: 24px;
+            position: relative
+        }
+
+        .modal-header {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between
+        }
+
+        .close-modal {
+            cursor: pointer;
+            font-size: 20px;
+            color: var(--gray)
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            display: none;
+            z-index: 2000;
+            animation: slideUp .3s ease-out
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1
+            }
+        }
+
+        /* Editor Outer (External Diffusion) Custom */
+        .diffusion-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 10px
+        }
+
+        .channel-card {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all .2s
+        }
+
+        .channel-card:hover {
+            border-color: var(--blue);
+            background: #f0f7ff
+        }
+
+        .channel-card.active {
+            border-color: var(--blue);
+            background: var(--blue-light)
+        }
+
+        .channel-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px
+        }
+
+        .channel-name {
+            font-weight: 600;
+            font-size: 13px
+        }
+
+        /* New Image Grid in Mobile Preview */
+        .mobile-img-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4px;
+            padding: 8px
+        }
+
+        .m-img {
+            aspect-ratio: 1;
+            background: #ddd;
+            border-radius: 4px
+        }
+
+        /* Settings CSS */
+        .settings-section {
+            margin-bottom: 24px
+        }
+
+        .settings-title {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 12px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #eee
+        }
+
+        .settings-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px
+        }
+
+        .toggle-btn {
+            width: 36px;
+            height: 20px;
+            background: #ccc;
+            border-radius: 10px;
+            position: relative;
+            cursor: pointer;
+            transition: background .2s
+        }
+
+        .toggle-btn::after {
+            content: '';
+            width: 16px;
+            height: 16px;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: left .2s
+        }
+
+        .toggle-btn.on {
+            background: var(--blue)
+        }
+
+        .toggle-btn.on::after {
+            left: 18px
+        }
+
+        /* 2024-03-20 Updated Styles */
+        .scheduler-config {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 12px
+        }
+
+        .step-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--blue);
+            margin-bottom: 4px
+        }
+
+        .ocr-upload-box {
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            background: #f1f5f9;
+            cursor: pointer;
+            transition: background .2s
+        }
+
+        .ocr-upload-box:hover {
+            background: #e2e8f0
+        }
+
+        /* New specific styles for the expanded spec */
+        .magazine-layout {
+            padding: 12px
+        }
+
+        .magazine-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px
+        }
+
+        .magazine-meta {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 16px
+        }
+
+        .magazine-content {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #333
+        }
+
+        /* New Floating Actions */
+        .floating-save {
+            position: fixed;
+            bottom: 30px;
+            right: 360px;
+            background: #1e293b;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 30px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, .2)
+        }
+
+        /* Smart Briefing Highlights */
+        .highlight-item {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+            padding: 8px;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 6px
+        }
+
+        .highlight-check {
+            color: var(--green);
+            font-weight: 700
+        }
+
+        .highlight-text {
+            flex: 1;
+            font-size: 13px
+        }
+
+        /* Sidebar Logo Area Improvements */
+        .sidebar {
+            background-color: #ffffff;
+            /* 사이드바 배경 흰색으로 명시 */
+        }
+
+        /* GNB/LNB style adjustments */
+        .nav-item.active {
+            background-color: #3C71FD;
+            /* 강조색 변경 (파란색 계열) */
+            font-weight: 600;
+        }
+
+        .nav-sub.active {
+            color: #3C71FD;
+            border-left: 2px solid #3C71FD;
+            background-color: #f0f4ff;
+        }
+
+        /* Table header styling */
+        thead th {
+            background-color: #f8fafc;
+            color: #64748b;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+
+        /* Status badges */
+        .badge-waiting {
+            background-color: #fef3c7;
+            color: #d97706;
+        }
+
+        .badge-complete {
+            background-color: #dcfce7;
+            color: #16a34a;
+        }
+
+        /* Modal specific */
+        .modal-container {
+            max-width: 600px;
+            border-radius: 16px;
+        }
+
+        /* Editor improvements */
+        .edit-area-header {
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 20px;
+        }
+
+        .preview-mobile-frame {
+            border: 12px solid #1e293b;
+            border-radius: 36px;
+            background: #ffffff;
+            height: 600px;
+            position: sticky;
+            top: 20px;
+        }
+
+        .tag-gray {
+            background-color: #f1f5f9;
+            color: #475569;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+        }
+
+        /* 2024.03.21 New spec components */
+        .ocr-result-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+
+        .curator-bubble {
+            background: #fff;
+            border: 1px solid var(--blue);
+            border-radius: 12px;
+            padding: 12px;
+            position: relative;
+            margin-bottom: 12px;
+        }
+
+        .curator-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 20px;
+            border-width: 8px 8px 0;
+            border-style: solid;
+            border-color: var(--blue) transparent;
+        }
+
+        /* Added Styles for card list and product import */
+        #page-product-import .search-row {
+            margin-bottom: 24px;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .content-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .content-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-thumb {
+            width: 100%;
+            height: 200px;
+            background-color: #f3f4f6;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .card-body {
+            padding: 16px;
+        }
+
+        .card-tag {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--blue);
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .card-title {
+            font-weight: 700;
+            font-size: 15px;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .card-price {
+            font-weight: 700;
+            color: #111827;
+            font-size: 14px;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #f1f5f9;
+            font-size: 12px;
+            color: var(--gray);
+        }
+
+        #page-product-import .tabs {
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--gray);
+            margin-bottom: 16px;
+        }
+
+        .breadcrumb-item.active {
+            color: var(--blue);
+            font-weight: 600;
+        }
+
+        /* Channel icons */
+        .channel-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background-color: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        /* Smart Layout Styles */
+        .layout-editor-container {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 24px;
+        }
+
+        .layout-palette {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .layout-item {
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 12px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .layout-item:hover {
+            border-color: var(--blue);
+        }
+
+        .layout-item.active {
+            border-color: var(--blue);
+            background-color: #f0f7ff;
+        }
+
+        .layout-preview-img {
+            width: 100%;
+            height: 80px;
+            background: #cbd5e1;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        /* Mobile Preview Specifics */
+        .m-header {
+            padding: 16px;
+            background: white;
+            border-bottom: 1px solid #eee;
+        }
+
+        .m-brand {
+            font-size: 12px;
+            color: var(--blue);
+            font-weight: 600;
+        }
+
+        .m-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        .m-content-body {
+            padding: 16px;
+        }
+
+        .m-briefing {
+            background: #fff;
+            padding: 16px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 16px;
+        }
+
+        .m-briefing-title {
+            font-weight: 700;
+            margin-bottom: 12px;
+            font-size: 15px;
+            color: #1e293b;
+        }
+
+        .m-ai-summary {
+            font-size: 13px;
+            line-height: 1.6;
+            color: #475569;
+        }
+
+        .m-tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 12px;
+        }
+
+        .m-tag {
+            background: #f1f5f9;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            color: #64748b;
+        }
+
+        /* Draggable elements */
+        .draggable-item {
+            cursor: grab;
+            user-select: none;
+        }
+
+        .draggable-item:active {
+            cursor: grabbing;
+        }
+
+        /* AI Tag suggestion area */
+        .ai-suggestions {
+            background: #fdf2f8;
+            border: 1px dashed #f472b6;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+
+        .suggestion-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: #db2777;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* OCR Processing state overlay */
+        .ocr-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+            border-radius: 8px;
+        }
+
+        .spinner {
+            width: 30px;
+            height: 30px;
+            border: 3px solid #e2e8f0;
+            border-top: 3px solid var(--blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* TPO Curator Section */
+        .tpo-curator-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .curator-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .curator-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #3c71fd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+        }
+
+        /* Image generator in editor */
+        .ai-img-gen-area {
+            background: #1e293b;
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 16px;
+        }
+
+        .prompt-input {
+            background: #334155;
+            border: 1px solid #475569;
+            color: white;
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-top: 12px;
+        }
+
+        /* Notification Toast Container */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .toast-message {
+            background: #1e293b;
+            color: white;
+            padding: 16px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideInRight 0.3s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        .shimmer {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
     </style>
 </head>
 
 <body>
-    <!-- (Wait, I need to provide the ACTUALLY verified content from the file, not just the head) -->
-    <!-- I will provide the content I just verified in step 172 -->
-    [CONTENT_FROM_STEP_172_WILL_BE_PASTED_HERE]
-</body>
-</html>
+<div class="app">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <div class="logo-mark">AD-TECH GEO</div>
+        </div>
+        <div class="nav-section">
+            <div class="nav-label">Main</div>
+            <div class="nav-item active">
+                <span class="icon">📊</span> 대시보드
+            </div>
+            <div class="nav-item">
+                <span class="icon">📦</span> 상품 관리
+            </div>
+        </div>
+        <div class="nav-section">
+            <div class="nav-label">GEO AI</div>
+            <div class="nav-item">
+                <span class="icon">✨</span> 콘텐츠 자동 생성
+            </div>
+            <div class="nav-sub-group">
+                <div class="nav-sub active" onclick="showPage('ai-contents')">전체 콘텐츠 목록</div>
+                <div class="nav-sub" onclick="showPage('product-import')">콘텐츠 수동 생성</div>
+                <div class="nav-sub" onclick="showModal('modal-ai-scheduler')">생성 스케줄 관리</div>
+            </div>
+        </div>
+        <div class="nav-section">
+            <div class="nav-label">Channels</div>
+            <div class="nav-item">
+                <span class="icon">🌐</span> 자사몰 쇼핑 피드
+            </div>
+            <div class="nav-item">
+                <span class="icon">📱</span> 미디어 확산 관리
+            </div>
+        </div>
+        <div class="nav-section" style="margin-top:auto">
+            <div class="nav-item">
+                <span class="icon">⚙️</span> 설정
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="main">
+        <!-- Topbar -->
+        <div class="topbar">
+            <div style="display:flex; align-items:center; gap:12px">
+                <span class="store-badge">pippin.co.kr</span>
+                <span style="font-size:12px; color:var(--gray)">관리자 : 전용성</span>
+            </div>
+            <div class="top-actions">
+                <span style="font-size:13px">에비플루 님</span>
+                <div class="top-icon">👤</div>
+                <div class="top-icon" style="background:var(--blue)">●</div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+
+            <!-- PAGE: AI 콘텐츠 관리 -->
+            <div class="page active" id="page-ai-contents">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
+                    <div class="page-title" style="margin-bottom:0px;">AI 콘텐츠 관리</div>
+                    <select class="select" style="margin-bottom:12px;gap:8px">
+                        <option>pippin.co.kr</option>
+                    </select>
+                </div>
+
+                <!-- Status indicators -->
+                <div class="status-grid">
+                    <div class="status-card amber">
+                        <div class="status-label">생성 대기</div>
+                        <div class="status-value">1,000건</div>
+                    </div>
+                    <div class="status-card green">
+                        <div class="status-label">생성 완료</div>
+                        <div class="status-value">89건<br><span class="sub-text">(상세 페이지 : 40건 / 외부 확산 : 49건)</span>
+                        </div>
+                    </div>
+                    <div class="status-card blue">
+                        <div class="status-label">미게시</div>
+                        <div class="status-value">89건<br><span class="sub-text">(상세 페이지 : 40건 / 외부 확산 : 49건)</span>
+                        </div>
+                    </div>
+                    <div class="status-card red">
+                        <div class="status-label">오류 발생</div>
+                        <div class="status-value">11건<br><span class="sub-text">(상세 페이지 : 6건 / 외부 확산 : 5건)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search -->
+                <div class="search-row">
+                    <input type="text" class="date-input" value="2026-03-18 ~ 2026-03-18" readonly
+                        style="width:180px">
+                    <input type="text" class="search-input" placeholder="상품명 또는 상품코드를 입력해주세요.">
+                    <button class="btn btn-primary">검색</button>
+                </div>
+
+                <div class="tabs"
+                    style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                    <div style="display:flex; gap:16px; align-items: center;">
+                        <div class="table-meta" style="margin-bottom:0;">선택 : <span
+                                style="color: #3C71FD">3</span><span>건</span></div>
+                        <div style="display:flex; gap:8px; align-items: center;">
+                            <button class="btn btn-outline"
+                                onclick="showModal('modal-default-settings')">🎨</button>
+                            <button class="btn btn-success" onclick="showModal('modal-ai-scheduler')">콘텐츠
+                                생성</button>
+                            <div class="tooltip-container">
+                                <div class="tooltip-icon">i</div>
+                                <div class="tooltip-box">
+                                    <div class="tooltip-header">
+                                        <span>AI 콘텐츠 생성 시 참고사항</span>
+                                    </div>
+                                    <div class="tooltip-content">
+                                        <ul class="tooltip-list">
+                                            <li>본 콘텐츠는 AI(인공지능) 모델을 활용하여 광고주가 제공한 상품 정보와 고객 리뷰를 바탕으로 자동 생성되었습니다.
+                                            </li>
+                                            <li>AI 기술 특성상 정보 추출 및 요약 과정에서 문맥상 오류나 누락, 부정확한 표현이 포함될 수 있습니다.</li>
+                                            <li style="color:#64748b">함께 생성된 AI 이미지는 텍스트 문맥을 바탕으로 연출된 가상의 라이프스타일
+                                                컷이므로,
+                                                실제 상품의 외형(패키지, 로고 등)과 다를 수 있으며 시각적 왜곡이 포함될 수 있습니다.</li>
+                                        </ul>
+                                        <div class="tooltip-footer" style="color:#64748b">
+                                            AI 콘텐츠를 최종 게시·배포·활용하기 전에 상품 스펙, 전성분, 주의사항, 표시광고 적법성, 실제 리뷰 원문, 생성 이미지 등
+                                            필요한
+                                            사항을 직접 확인하여야 합니다.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="filter-row">
+                        <button class="btn" id="btn-product-import"
+                            style="margin-bottom: 12px; background-color: #3C71FD; color: #ffffff; border-color: #3C71FD;"
+                            onclick="handleProductImport()">상품 정보 불러오기</button>
+                        <select class="select" style="margin-bottom:12px;gap:8px">
+                            <option>10개씩 보기</option>
+                            <option>20개씩 보기</option>
+                            <option>50개씩 보기</option>
+                            <option>100개씩 보기</option>
+                            <option>250개씩 보기</option>
+                            <option>500개씩 보기</option>
+                        </select>
+                        <select class="select" style="margin-bottom:12px;gap:8px">
+                            <option>전체 상태</option>
+                            <option>미생성</option>
+                            <option>생성중</option>
+                            <option>완료</option>
+                            <option>오류</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Tab content: 생성 관리 (table) -->
+                <div id="tc-gen">
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox"></th>
+                                    <th>썸네일</th>
+                                    <th>상품 코드</th>
+                                    <th>상품 정보</th>
+                                    <th>상품 가격</th>
+                                    <th>상품 매출↑↓</th>
+                                    <th>상품 등록일↑↓</th>
+                                    <th>콘텐츠 생성일↑↓</th>
+                                    <th>상태</th>
+                                    <th>상세 페이지 콘텐츠</th>
+                
