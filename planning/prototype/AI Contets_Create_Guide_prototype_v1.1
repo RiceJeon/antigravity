@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEO AI 콘텐츠 생성 & 확산 가이드</title>
+    <!-- Tailwind CSS 불러오기 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide 아이콘 불러오기 -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- 커스텀 애니메이션 스타일 -->
+    <style>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.2s ease-out forwards;
+        }
+
+        .animate-zoom-in {
+            animation: zoomIn 0.2s ease-out forwards;
+        }
+
+        /* 스크롤바 디자인 (선택사항) */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4 font-sans antialiased">
+
+    <!-- 배경 / 모달 트리거 화면 -->
+    <div class="text-center">
+        <h1 class="text-2xl font-bold text-gray-800 mb-4">GEO 관리자 대시보드</h1>
+        <button onclick="openModal()"
+            class="px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg shadow-sm hover:bg-indigo-700 transition-colors">
+            이용 가이드 다시 보기
+        </button>
+    </div>
+
+    <!-- 모달 래퍼 (기본적으로 보이도록 설정) -->
+    <div id="guideModal"
+        class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm">
+
+        <!-- 모달 컨텐츠 -->
+        <div
+            class="bg-white w-full max-w-3xl max-h-[90vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-zoom-in">
+
+            <!-- 모달 헤더 -->
+            <div
+                class="px-8 py-5 border-b border-gray-100 flex items-center justify-between bg-white sticky top-0 z-10">
+                <div>
+                    <h2 class="text-xl font-bold text-gray-900">GEO AI 콘텐츠 생성 & 확산 가이드</h2>
+                    <p class="text-sm text-gray-500 mt-1">콘텐츠 생성부터 외부 매체 확산까지의 전체 흐름을 확인해 보세요.</p>
+                </div>
+                <button onclick="closeModal()"
+                    class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <!-- 모달 바디 (타임라인 영역) -->
+            <div class="p-8 overflow-y-auto bg-gray-50/50 flex-1">
+                <div class="relative max-w-2xl mx-auto">
+
+                    <!-- 세로 연결선 -->
+                    <div class="absolute top-8 bottom-8 left-[27px] w-0.5 bg-gray-200"></div>
+
+                    <div class="space-y-10">
+
+                        <!-- 1단계 -->
+                        <div class="relative pl-16">
+                            <!-- 노드 아이콘 -->
+                            <div
+                                class="absolute left-0 top-0 w-14 h-14 rounded-full border-4 border-white bg-blue-100 flex items-center justify-center shadow-sm z-10">
+                                <i data-lucide="sparkles" class="w-6 h-6 text-blue-600"></i>
+                            </div>
+
+                            <!-- 컨텐츠 카드 -->
+                            <div
+                                class="bg-white rounded-xl p-6 shadow-sm border border-blue-200 transition-all hover:shadow-md">
+                                <div class="flex items-center mb-2">
+                                    <span
+                                        class="text-xs font-bold px-2.5 py-1 bg-gray-100 text-gray-600 rounded-md mr-3">
+                                        AI 콘텐츠 관리
+                                    </span>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-900 mb-3">1단계: AI 콘텐츠 확인 및 다듬기</h3>
+
+                                <div class="mb-4 inline-block bg-gray-50 rounded-lg p-3 w-full border border-gray-100">
+                                    <p class="text-sm font-medium text-gray-700 flex items-start">
+                                        <span class="mr-2">💡</span> 수집된 상품 정보와 리뷰를 바탕으로 AI가 매력적인 매거진 초안을 완성했습니다!
+                                    </p>
+                                </div>
+
+                                <ul class="space-y-3">
+                                    <li class="flex items-start text-sm text-gray-600 leading-relaxed">
+                                        <i data-lucide="check-circle-2"
+                                            class="w-4 h-4 text-gray-400 mr-2 mt-0.5 flex-shrink-0"></i>
+                                        <span><strong>[AI 콘텐츠 관리]</strong> 탭에서 '생성 완료'된 카드 목록을 확인합니다.</span>
+                                    </li>
+                                    <li class="flex items-start text-sm text-gray-600 leading-relaxed">
+                                        <i data-lucide="check-circle-2"
+                                            class="w-4 h-4 text-gray-400 mr-2 mt-0.5 flex-shrink-0"></i>
+                                        <span>카드의 <strong>[미리보기/수정하기]</strong> 버튼을 눌러 에디터를 열고, 텍스트 흐름이나 이미지가 브랜드와 잘 맞는지
+                                            확인하고 다듬어 주세요.</span>
+                                    </li>
+                                    <li class="flex items-start text-sm text-gray-600 leading-relaxed">
+                                        <i data-lucide="check-circle-2"
+                                            class="w-4 h-4 text-gray-400 mr-2 mt-0.5 flex-shrink-0"></i>
+                                        <span>검수를 마치고 하단의 <strong>[저장]</strong> 버튼을 누르면, 배포 준비가 완료되어 다음 탭으로
+                                            이동합니다.</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- 2단계 -->
+                        <div class="relative pl-16">
+                            <!-- 노드 아이콘 -->
+                            <div
+                                class="absolute left-0 top-0 w-14 h-14 rounded-full border-4 border-white bg-emerald-100 flex items-center justify-center shadow-sm z-10">
+                                <i data-lucide="store" class="w-6 h-6 text-emerald-600"></i>
+                            </div>
+
+                            <!-- 컨텐츠 카드 -->
+                            <div
+                                class="bg-white rounded-xl p-6 shadow-sm border border-emerald-200 transition-all hover:shadow-md">
+                                <div class="flex items-center mb-2">
+                                    <span
+                                        class="text-xs font-bold px-2.5 py-1 bg-gray-100 text-gray-600 rounded-md mr-3">
+                                        상세 페이지 게시 관리
+                                    </span>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-900 mb-3">2단계: 상세 페이지에 노출하기</h3>
+
+                                <div class="mb-4 inline-block bg-gray-50 rounded-lg p-3 w-full border border-gray-100">
+                                    <p class="text-sm font-medium text-gray-700 flex items-start">
+                                        <span class="mr-2">💡</span> 검수가 끝난 콘텐츠를 실제 상품 상세 페이지에 띄워볼 차례입니다.
+                                    </p>
+                                </div>
+
+                                <ul class="space-y-3">
+                                    <li class="flex items-start text-sm text-gray-600 leading-relaxed">
+                                        <i data-lucide="check-circle-2"
+                                            class="w-4 h-4 text-gray-400 mr-2 mt-0.5 flex-shrink-0"></i>
+                                        <span><strong>[콘텐츠 게시 관리 > 상세 페이지 게시 관리]</strong> 탭으로 이동합니다.</span>
+                                    </li>
+                                    <li class="flex items-start text-sm text-gray-600 leading-relaxed">
+                                        <i data-lucide="check-circle-2"
+                                            class="w-4 h-4 text-gray-400 mr-2 mt-0.5 flex-shrink-0"></i>
+                                        <span>방금 넘어온 '게시 대기' 상태의 콘텐츠 중 노출할 항목을 체크(여러 개 선택 가능)하고 우측 상단의
+                                            <strong>[게시하기]</strong>를 누릅니다.</span>
+                                    </li>
+                                    <li class="flex items-start text-sm text-gray-600 leading-relaxed">
+                                        <i data-lucide="check-circle-2"
+                                            class="w-4 h-4 text-gray-400 mr-2 mt-0.5 flex-shrink-0"></i>
+                                        <span>실시간 처리 스케줄러가 나타나며, 진행 바가 100%가 되면 상태가 <strong>'게시 완료'</strong>로
+                                            변경됩니다.</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- 3단계 -->
+                        <div class="relative pl-16">
+                            <!-- 노드 아이콘 -->
+                            <div
+                                class="absolute left-0 top-0 w-14 h-14 rounded-full border-4 border-white bg-purple-100 flex items-center justify-center shadow-sm z-10">
+                                <i data-lucide="globe" class="w-6 h-6 text-purple-600"></i>
+                            </div>
+
+                            <!-- 컨텐츠 카드 -->
+                            <div
+                                class="bg-white rounded-xl p-6 shadow-sm border border-purple-200 transition-all hover:shadow-md">
+                                <div class="flex items-center mb-2">
+                                    <span
+                                        class="text-xs font-bold px-2.5 py-1 bg-gray-100 text-gray-600 rounded-md mr-3">
+                                        확산 관리
+                                    </span>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-900 mb-3">3단계: 외부 매체 및 자사 매거진으로 소문내기</h3>
+
+                                <div class="mb-4 inline-block bg-gray-50 rounded-lg p-3 w-full border border-gray-100">
+                                    <p class="text-sm font-medium text-gray-700 flex items-start">
+                                        <span class="mr-2">💡</span> 완성된 양질의 매거진을 외부 제휴 매체(예: 1분 뉴스 등)나 자사 사이트의 매거진 전용
+                                        탭으로 확산해 보세요.
+                                    </p>
+                                </div>
+
+                                <ul class="space-y-3">
+                                    <li class="flex items-start text-sm text-gray-600 leading-relaxed">
+                                        <i data-lucide="check-circle-2"
+                                            class="w-4 h-4 text-gray-400 mr-2 mt-0.5 flex-shrink-0"></i>
+                                        <span><strong>[제휴 매체 게시 관리]</strong> 또는 <strong>[자사 사이트 게시 관리]</strong> 탭으로 이동해
+                                            배포할 콘텐츠를 선택합니다.</span>
+                                    </li>
+                                    <li class="flex items-start text-sm text-gray-600 leading-relaxed">
+                                        <i data-lucide="check-circle-2"
+                                            class="w-4 h-4 text-gray-400 mr-2 mt-0.5 flex-shrink-0"></i>
+                                        <span>제휴 매체의 경우 타겟팅할 매체를 선택하고 <strong>[게시하기]</strong>를 클릭합니다.</span>
+                                    </li>
+                                    <li class="flex items-start text-sm text-gray-600 leading-relaxed">
+                                        <i data-lucide="check-circle-2"
+                                            class="w-4 h-4 text-gray-400 mr-2 mt-0.5 flex-shrink-0"></i>
+                                        <span><span class='text-red-500 font-bold'>🚨 최종 확인:</span> 배포 직전
+                                            <strong>[미리보기]</strong> 창이 뜹니다. 여러 건을 선택했다면 화살표를 넘겨가며 실제 매체에 어떻게 보일지 마지막으로
+                                            꼼꼼히 확인해 주세요.</span>
+                                    </li>
+                                    <li class="flex items-start text-sm text-gray-600 leading-relaxed">
+                                        <i data-lucide="check-circle-2"
+                                            class="w-4 h-4 text-gray-400 mr-2 mt-0.5 flex-shrink-0"></i>
+                                        <span>확정을 누르면 배포가 시작되며, 만약 네트워크 문제 등으로 실패한 건은 <strong>'오류'</strong> 상태로 남아 언제든
+                                            재시도할 수 있습니다.</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- 모달 푸터 -->
+            <div class="px-8 py-5 border-t border-gray-100 bg-white flex justify-end">
+                <button onclick="closeModal()"
+                    class="px-6 py-2.5 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors shadow-sm flex items-center">
+                    가이드 닫고 시작하기 <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 스크립트 -->
+    <script>
+        // Lucide 아이콘 렌더링
+        lucide.createIcons();
+
+        // 모달 제어 로직
+        const modal = document.getElementById('guideModal');
+
+        function openModal() {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+    </script>
+</body>
+
+</html>
