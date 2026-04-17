@@ -1,28 +1,28 @@
 # GEO PJT 🌍🚀
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-> **GEO PJT**에 대한 짧고 강렬한 한 줄 설명을 여기에 적어주세요. 
-> (예: 복잡한 지리/공간 데이터를 `antigravity`처럼 가볍고 직관적으로 다루기 위한 프로젝트입니다.)
+> 복잡한 지리/공간 데이터를 `antigravity`처럼 가볍고 직관적으로 다루기 위한 프로젝트입니다.
 
 ---
 
 ## 📖 프로젝트 소개 (About)
-이 프로젝트가 해결하고자 하는 문제와 기획 의도를 상세히 적어주세요. 
-어떤 배경에서 시작되었고, 사용자에게 어떤 가치를 제공하는지 설명하면 좋습니다.
+GEO 프로젝트의 생성/확산 기능은 통 이미지로 구성된 광고주의 상세 페이지를 LLM이 더욱 잘 인용할 수 있고 더 나아가 외부 확산 콘텐츠를 통한 
+구매 전환율(CVR) 역시 함께 증대시키고자 진행하게 되었습니다. 
+이를 통해, 광고주의 AI를 통한 인용률 증대, CVR 증대를 통한 광고주 Lock-In 및 GEO 사업이 하나의 BM이 될 수 있게 하는 게 핵심 KPI입니다.
 
 ## ✨ 주요 기능 (Features)
-* **기능 1**: 이 프로젝트의 가장 핵심적인 기능을 적어주세요.
-* **기능 2**: 사용자가 얻을 수 있는 이점을 적어주세요.
-* **기능 3**: 특별히 강조하고 싶은 기술적 특징을 적어주세요.
+* **기능 1**: CDP 데이터를 활용하여 LLM을 통한 상품 상세 페이지 콘텐츠&매거진 콘텐츠 자동 생성.
+* **기능 2**: LLM 크롤러를 통한 인용률 증대 및 콘텐츠 기반 전환율(CVR) 증대.
+* **기능 3**: CDP/DMP, 추천상품 로직, LLM 프롬포트 엔지니어링, 콘텐츠 성과 리포트.
 
 ## 🛠️ 기술 스택 (Tech Stack)
 * **Language:** Python, JavaScript, TypeScript 등
-* **Framework:** React, FastAPI, Spring Boot,HTML 등
-* **Database:** PostgreSQL, MongoDB 등
-* **ETC:** 사용한 외부 API나 특별한 라이브러리 (예: Google Maps API)
+* **Framework:** PHP, REST API,HTML 등
+* **Database:** Clickhouse
+* **ETC:** Google Gemini API, GA4, Clarity 등 
 
 ## 🚀 시작하기 (Getting Started)
-로컬 환경에서 프로젝트를 실행하기 위한 방법입니다.
+코드 다운로드 후 HTML 파일을 실행하세요. 
 
 ### 요구 사항 (Prerequisites)
 프로젝트를 실행하기 전 설치되어야 하는 프로그램들을 명시합니다.
