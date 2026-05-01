@@ -1,7 +1,7 @@
-# GEO PJT 🌍🚀
+# GEO PJT 🚀
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-> 복잡한 지리/공간 데이터를 `antigravity`처럼 가볍고 직관적으로 다루기 위한 프로젝트입니다.
+> LLM 검색 엔진 인용 극대화를 `antigravity`처럼 가볍고 직관적으로 다루기 위한 프로젝트입니다.
 
 ---
 
