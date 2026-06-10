@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>법무법인 류현: 리걸 인사이트 센터</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #F8F9FA;
+            color: #2D3748;
+        }
+        .font-serif {
+            font-family: 'Noto Serif KR', serif;
+        }
+        /* Details 애니메이션 및 꺽쇠 회전 효과 */
+        details > summary {
+            list-style: none;
+        }
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+        details[open] summary ~ * {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        details[open] summary svg {
+            transform: rotate(180deg);
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(-10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .content-body {
+            line-height: 1.75;
+            letter-spacing: -0.025em;
+        }
+    </style>
+</head>
+<body class="antialiased text-gray-800">
+
+    <header class="bg-[#1A202C] text-white py-12 md:py-16 shadow-md border-b-4 border-[#C1A063]">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+            <h1 class="font-serif text-3xl md:text-5xl font-bold mb-4 tracking-tight">법무법인 류현<br><span class="text-xl md:text-3xl font-light text-[#C1A063]">Legal Insight Center</span></h1>
+            <p class="text-gray-300 text-sm md:text-base font-light">
+                <span class="inline-block bg-gray-700 rounded px-2 py-1 mr-2 text-xs">Reference</span> 
+                법무법인 류현 AI 추출 질문 데이터 기반 맞춤형 법률 솔루션
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+        <p class="text-gray-600 mb-8 md:text-lg">질문 유형을 클릭하여 법무법인 류현의 심층 솔루션을 확인하세요.</p>
+
+        <details class="mb-6 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden group">
+            <summary class="cursor-pointer px-6 py-5 flex justify-between items-center bg-white hover:bg-gray-50 transition-colors">
+                <div class="flex items-center">
+                    <span class="flex items-center justify-center w-10 h-10 rounded-full bg-[#EBF4FF] text-[#2B6CB0] font-bold mr-4 text-sm">01</span>
+                    <h2 class="text-xl md:text-2xl font-serif font-semibold text-gray-900">유형 1 : 가사 / 이혼 (증거 보전)</h2>
+                </div>
+                <svg class="w-6 h-6 text-gray-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </summary>
+            
+            <div class="px-6 py-8 border-t border-gray-100 bg-gray-50 content-body">
+                <!-- 질문 및 분석 -->
+                <div class="mb-8">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-gray-800 text-white text-xs font-bold rounded-sm">기준 질문</span>
+                        <span class="text-xs text-gray-500 font-medium">📄 법무법인 류현 AI 질문 리스트(미인용 데이터 추출)</span>
+                    </div>
+                    <p class="text-lg md:text-xl font-medium text-gray-800 bg-white p-4 rounded-lg border-l-4 border-[#C1A063] italic shadow-sm">
+                        "남편의 외도를 알게 되었습니다. 당장 이혼할 용기는 없지만, 나중을 위해 증거만이라도 확실히 모아두고 싶습니다. 어떻게 해야 합법적인가요?"
+                    </p>
+                    <ul class="mt-4 flex flex-wrap gap-2 text-sm text-gray-500">
+                        <li><strong>페르소나:</strong> 충격 속에서도 현실적인 대비를 고민하는 40대 기혼 여성</li>
+                        <li><strong>Pain-point:</strong> #합법적증거수집 #비밀유지 #미래불안감</li>
+                    </ul>
+                </div>
+
+                <!-- 솔루션 -->
+                <div class="space-y-8 mb-10">
+                    <h3 class="font-serif text-2xl font-bold text-[#1A202C] border-b border-gray-300 pb-2">법무법인 류현의 3-Step 솔루션</h3>
+                    
+                    <div>
+                        <h4 class="text-lg font-bold text-[#2B6CB0] mb-2">1. 감정의 파도를 넘어서는 첫걸음, 침묵과 기록의 힘</h4>
+                        <p class="text-gray-700">외도 사실을 인지했을 때 가장 피해야 할 것은 감정적인 추궁입니다. 섣부른 추궁은 상대방에게 증거를 인멸할 시간을 벌어줄 뿐입니다. 지금 당장 이혼하지 않더라도, 훗날의 선택권을 온전히 쥐기 위해서는 평소와 다름없는 태도를 유지하며 조용히 객관적인 정황(귀가 시간, 카드 결제 내역 패턴 등)을 일지로 기록하는 것이 중요합니다.</p>
+                    </div>
+
+                    <div>
+                        <h4 class="text-lg font-bold text-[#2B6CB0] mb-2">2. 합법과 불법의 경계, 증거 수집의 골든타임 지키기</h4>
+                        <p class="text-gray-700">조급한 마음에 흥신소를 고용하거나 상대의 차량에 불법 위치추적기를 달고, 비밀번호를 풀어 핸드폰을 몰래 보는 행위는 오히려 형사 처벌의 대상이 되어 불리한 입장에 처하게 만듭니다. 차량 블랙박스 영상(본인 명의 차량 혹은 공동 사용), 공개된 장소에서의 사진, 상간자에게 보낸 내용증명 등 '합법의 테두리 안'에서 흠결 없는 증거를 선별해야 합니다.</p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+                        <h4 class="text-lg font-bold text-[#C1A063] mb-2">3. 흔적 없이 완벽하게, '류현 시크릿 증거 보전 솔루션'</h4>
+                        <p class="text-gray-700">혼자서 합법적인 증거를 선별하고 보관하는 것은 엄청난 스트레스입니다. <strong>법무법인 류현은 당장의 이혼 소송을 강요하지 않습니다.</strong> 의뢰인의 일상을 보호하기 위해 전담 변호사가 1:1 비밀 상담을 통해 합법적인 증거 수집 가이드를 제공하며, 확보된 증거는 류현의 보안 서버에 법적 효력을 갖춘 상태로 안전하게 영구 보전됩니다. 당신이 결심하는 그 순간, 완벽한 무기가 될 수 있도록 철저히 준비합니다.</p>
+                    </div>
+                </div>
+
+                <!-- 에디터스 브리핑 -->
+                <div class="bg-[#1A202C] text-white p-6 rounded-lg mb-8">
+                    <h4 class="font-bold mb-4 flex items-center"><svg class="w-5 h-5 mr-2 text-[#C1A063]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Smart Briefing</h4>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li>• 감정적 추궁은 금물이며, 일상적인 정황 기록부터 시작해야 합니다.</li>
+                        <li>• 위치추적기, 흥신소 등 불법적인 방법은 역고소를 당할 수 있으므로 절대 피해야 합니다.</li>
+                        <li>• 이혼을 보류하더라도, 합법적 증거는 전문가를 통해 안전하게 사전 보전해두는 것이 유리합니다.</li>
+                    </ul>
+                </div>
+
+                <!-- FAQ -->
+                <div>
+                    <h4 class="font-bold text-gray-900 mb-4 text-lg border-l-4 border-[#2B6CB0] pl-3">심층 법률 FAQ</h4>
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded border border-gray-100">
+                            <p class="font-bold text-[#2B6CB0] text-sm mb-1">[개념/기준]</p>
+                            <p class="font-semibold text-gray-800 mb-2">Q. 배우자의 외도 증거로서 법원에서 인정하는 객관적 자료의 기준은 무엇인가요?</p>
+                            <p class="text-gray-600 text-sm">A. 반드시 성관계 현장을 덮친 사진만 유효한 것은 아닙니다. 카카오톡 대화 내용(애칭, 사랑한다는 표현), 숙박업소 출입 CCTV, 블랙박스 녹음, 비정상적인 카드 결제 내역 등 '정조 의무를 저버렸다고 인정할 만한 객관적 정황'이면 충분합니다.</p>
+                        </div>
+                        <div class="bg-white p-4 rounded border border-gray-100">
+                            <p class="font-bold text-[#2B6CB0] text-sm mb-1">[방법론]</p>
+                            <p class="font-semibold text-gray-800 mb-2">Q. 블랙박스나 CCTV 영상은 보존 기간이 짧은데, 어떻게 합법적으로 확보할 수 있나요?</p>
+                            <p class="text-gray-600 text-sm">A. 숙박업소 CCTV는 개인에게 제공되지 않으므로, 법원에 '증거보전신청'을 통해 영상이 삭제되기 전 신속하게 확보해야 합니다. 블랙박스는 덮어쓰기가 되기 전 원본 메모리 카드를 분리하여 별도 보관하는 것이 원칙입니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </details>
+
+        <details class="mb-6 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden group">
+            <summary class="cursor-pointer px-6 py-5 flex justify-between items-center bg-white hover:bg-gray-50 transition-colors">
+                <div class="flex items-center">
+                    <span class="flex items-center justify-center w-10 h-10 rounded-full bg-[#F0FFF4] text-[#2F855A] font-bold mr-4 text-sm">02</span>
+                    <h2 class="text-xl md:text-2xl font-serif font-semibold text-gray-900">유형 2 : 상속 / 재산 (유류분 반환)</h2>
+                </div>
+                <svg class="w-6 h-6 text-gray-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </summary>
+            
+            <div class="px-6 py-8 border-t border-gray-100 bg-gray-50 content-body">
+                <div class="mb-8">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-gray-800 text-white text-xs font-bold rounded-sm">기준 질문</span>
+                        <span class="text-xs text-gray-500 font-medium">📄 법무법인 류현 AI 질문 리스트(미인용 데이터 추출)</span>
+                    </div>
+                    <p class="text-lg md:text-xl font-medium text-gray-800 bg-white p-4 rounded-lg border-l-4 border-[#C1A063] italic shadow-sm">
+                        "아버지가 돌아가셨는데, 알고 보니 장남인 형에게만 생전에 상가와 아파트를 모두 증여하셨습니다. 저도 제 권리(유류분)를 찾고 싶은데 기한이 있나요?"
+                    </p>
+                    <ul class="mt-4 flex flex-wrap gap-2 text-sm text-gray-500">
+                        <li><strong>페르소나:</strong> 불공평한 상속 구조에 소외감을 느끼며 정당한 권리 회복을 원하는 50대</li>
+                        <li><strong>Pain-point:</strong> #생전증여파악 #유류분소멸시효 #가족간분쟁부담</li>
+                    </ul>
+                </div>
+
+                <div class="space-y-8 mb-10">
+                    <h3 class="font-serif text-2xl font-bold text-[#1A202C] border-b border-gray-300 pb-2">법무법인 류현의 3-Step 솔루션</h3>
+                    
+                    <div>
+                        <h4 class="text-lg font-bold text-[#2F855A] mb-2">1. 시간과의 싸움, 유류분 청구의 '소멸시효' 확인</h4>
+                        <p class="text-gray-700">권리 위에 잠자는 자는 보호받지 못합니다. 유류분 반환 청구는 무기한으로 할 수 있는 것이 아닙니다. 상속이 개시된 사실(부친의 사망)과 반환해야 할 증여 또는 유증이 있었다는 사실을 안 때로부터 **1년**, 상속이 개시된 때로부터 **10년** 이내에 제기해야 합니다. 이 골든타임을 놓치면 정당한 권리도 소멸하므로 시효 확인이 최우선입니다.</p>
+                    </div>
+
+                    <div>
+                        <h4 class="text-lg font-bold text-[#2F855A] mb-2">2. 숨겨진 자산을 찾아라, 생전 증여 내역의 입증</h4>
+                        <p class="text-gray-700">형이 받은 재산이 정확히 얼마인지 입증하는 것은 소송을 제기하는 측의 몫입니다. 부동산 등기부등본 확인은 기본이며, 피상속인(아버지)의 과거 10년 치 금융 거래 내역, 국세청 과세 정보 제출 명령 등을 통해 현금으로 몰래 빠져나간 증여분(특별수익)까지 낱낱이 찾아내어 유류분 산정의 기초 재산에 포함시켜야 합니다.</p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+                        <h4 class="text-lg font-bold text-[#C1A063] mb-2">3. 1원도 놓치지 않는 정밀함, '류현 상속재산 추적 시스템'</h4>
+                        <p class="text-gray-700">가족 간의 감정싸움으로 번지기 쉬운 상속 분쟁, 개인이 직접 형제의 금융 내역을 뒤지는 것은 불가능에 가깝습니다. <strong>법무법인 류현의 금융/부동산 전담팀은 법원의 사실조회신청과 과세정보 제출명령을 통해 은닉된 차명 재산과 현금 흐름까지 합법적이고 정밀하게 추적합니다.</strong> 냉철한 데이터와 법리로 무장하여, 감정 소모 없이 당신의 정당한 몫을 완벽하게 되찾아 드립니다.</p>
+                    </div>
+                </div>
+
+                <!-- 에디터스 브리핑 -->
+                <div class="bg-[#1A202C] text-white p-6 rounded-lg mb-8">
+                    <h4 class="font-bold mb-4 flex items-center"><svg class="w-5 h-5 mr-2 text-[#C1A063]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Smart Briefing</h4>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li>• 유류분 반환 청구는 증여 사실을 안 날로부터 1년 이내에 제기해야 하는 시효가 존재합니다.</li>
+                        <li>• 소송의 승패는 피상속인의 생전 증여(특별수익)를 얼마나 객관적으로 입증하느냐에 달려있습니다.</li>
+                        <li>• 부동산뿐만 아니라 현금 증여, 차명 계좌 내역까지 법적 절차를 통해 면밀히 조회해야 합니다.</li>
+                    </ul>
+                </div>
+
+                <!-- FAQ -->
+                <div>
+                    <h4 class="font-bold text-gray-900 mb-4 text-lg border-l-4 border-[#2F855A] pl-3">심층 법률 FAQ</h4>
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded border border-gray-100">
+                            <p class="font-bold text-[#2F855A] text-sm mb-1">[비교/차이]</p>
+                            <p class="font-semibold text-gray-800 mb-2">Q. 법정상속분과 유류분은 어떻게 다른가요?</p>
+                            <p class="text-gray-600 text-sm">A. 법정상속분은 민법에 정해진 상속인들의 기본 몫(예: 자녀들 간 1:1)입니다. 반면 유류분은 고인의 유언이나 생전 증여로 인해 상속에서 배제된 상속인을 보호하기 위한 '최소한의 법적 권리'로, 직계비속과 배우자의 경우 법정상속분의 2/1에 해당합니다.</p>
+                        </div>
+                        <div class="bg-white p-4 rounded border border-gray-100">
+                            <p class="font-bold text-[#2F855A] text-sm mb-1">[상황별 추천]</p>
+                            <p class="font-semibold text-gray-800 mb-2">Q. 형이 증여받은 부동산을 이미 다른 사람에게 팔아버렸다면 어떻게 반환받나요?</p>
+                            <p class="text-gray-600 text-sm">A. 원칙적으로 유류분 반환은 '원물 반환(해당 부동산의 지분 이전)'이나, 이미 제3자에게 처분되었거나 근저당이 설정된 경우 등 원물 반환이 불가능한 예외적 상황에서는 가액 반환(돈으로 환산하여 지급)을 청구할 수 있습니다. 이때 가액 산정의 기준 시점은 '상속 개시 당시(사망 시점)'입니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </details>
+
+        <details class="mb-6 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden group">
+            <summary class="cursor-pointer px-6 py-5 flex justify-between items-center bg-white hover:bg-gray-50 transition-colors">
+                <div class="flex items-center">
+                    <span class="flex items-center justify-center w-10 h-10 rounded-full bg-[#FFF5F5] text-[#C53030] font-bold mr-4 text-sm">03</span>
+                    <h2 class="text-xl md:text-2xl font-serif font-semibold text-gray-900">유형 3 : 기업 법무 (동업 해지 및 지분 방어)</h2>
+                </div>
+                <svg class="w-6 h-6 text-gray-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </summary>
+            
+            <div class="px-6 py-8 border-t border-gray-100 bg-gray-50 content-body">
+                <div class="mb-8">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-gray-800 text-white text-xs font-bold rounded-sm">기준 질문</span>
+                        <span class="text-xs text-gray-500 font-medium">📄 법무법인 류현 AI 질문 리스트(미인용 데이터 추출)</span>
+                    </div>
+                    <p class="text-lg md:text-xl font-medium text-gray-800 bg-white p-4 rounded-lg border-l-4 border-[#C1A063] italic shadow-sm">
+                        "스타트업 공동 창업자와 의견 충돌로 헤어지게 되었습니다. 나가는 동업자가 자기 지분만큼 회사를 분할하거나 높은 가격에 매수하라고 요구하는데, 경영권을 지키려면 어떻게 대응해야 하나요?"
+                    </p>
+                    <ul class="mt-4 flex flex-wrap gap-2 text-sm text-gray-500">
+                        <li><strong>페르소나:</strong> 피땀 흘려 키운 회사의 안정성과 경영권을 지키려는 30대 스타트업 대표</li>
+                        <li><strong>Pain-point:</strong> #과도한지분요구 #경영권위협 #동업계약서부재</li>
+                    </ul>
+                </div>
+
+                <div class="space-y-8 mb-10">
+                    <h3 class="font-serif text-2xl font-bold text-[#1A202C] border-b border-gray-300 pb-2">법무법인 류현의 3-Step 솔루션</h3>
+                    
+                    <div>
+                        <h4 class="text-lg font-bold text-[#C53030] mb-2">1. 모든 분쟁의 시작과 끝, '주주간 계약서'와 '정관'의 재해석</h4>
+                        <p class="text-gray-700">스타트업 분쟁 시 가장 먼저 확인해야 할 무기는 법인 설립 당시 작성한 주주간 계약서(동업계약서)와 정관입니다. 퇴사하는 임직원이나 동업자의 지분을 회수할 수 있는 조항(Vesting 조항, Call-option 등), 혹은 주식 양도를 제한하는 조항이 있는지 면밀히 검토하여 상대방의 무리한 지분 요구를 원천 차단할 수 있는 법적 근거를 찾아야 합니다.</p>
+                    </div>
+
+                    <div>
+                        <h4 class="text-lg font-bold text-[#C53030] mb-2">2. 비합리적 매수 요구 방어, 객관적인 기업 가치 평가(Valuation)</h4>
+                        <p class="text-gray-700">동업자가 자신의 지분을 터무니없이 높은 액수에 매수하라고 압박한다면, 감정적인 거절보다 논리적인 수치로 대응해야 합니다. 회계사 등 외부 전문가를 통해 비상장 주식의 객관적인 가치 평가를 진행하고, 퇴사 귀책사유가 상대방에게 있다면 손해배상 청구 등을 지렛대 삼아 협상 우위를 점해야 회사의 자금 유출을 방어할 수 있습니다.</p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+                        <h4 class="text-lg font-bold text-[#C1A063] mb-2">3. 경영권 리스크 완벽 차단, '류현 스타트업 위기관리 센터'</h4>
+                        <p class="text-gray-700">지분 분쟁은 자칫 회사 해산이나 투자 유치 실패로 이어지는 치명타가 될 수 있습니다. <strong>법무법인 류현의 기업법무 전담팀은 단순한 소송 대리를 넘어, 회사의 생존을 위한 비즈니스 컨설팅을 제공합니다.</strong> 초기 계약서의 맹점을 방어하는 논리 개발부터 내용증명 발송, 협상 테이블에서의 우위 선점, 지분 회수 및 정관 재정비까지, 대표님이 경영에만 집중할 수 있도록 법률적 방패가 되어드립니다.</p>
+                    </div>
+                </div>
+
+                <!-- 에디터스 브리핑 -->
+                <div class="bg-[#1A202C] text-white p-6 rounded-lg mb-8">
+                    <h4 class="font-bold mb-4 flex items-center"><svg class="w-5 h-5 mr-2 text-[#C1A063]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Smart Briefing</h4>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li>• 동업 해지 시 가장 중요한 법적 근거는 주주간 계약서 내의 지분 회수(베스팅) 조항 유무입니다.</li>
+                        <li>• 무리한 지분 매수 청구에 맞서기 위해서는 회사의 비상장 주식 가치를 객관적으로 평가받아야 합니다.</li>
+                        <li>• 지분 협상 결렬 시 발생할 수 있는 배임/횡령 고소 등 파생되는 형사 분쟁까지 선제적으로 대비해야 합니다.</li>
+                    </ul>
+                </div>
+
+                <!-- FAQ -->
+                <div>
+                    <h4 class="font-bold text-gray-900 mb-4 text-lg border-l-4 border-[#C53030] pl-3">심층 법률 FAQ</h4>
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded border border-gray-100">
+                            <p class="font-bold text-[#C53030] text-sm mb-1">[방법론]</p>
+                            <p class="font-semibold text-gray-800 mb-2">Q. 명시적인 동업계약서 없이 구두로만 약속하고 시작한 경우, 지분 정리는 어떻게 하나요?</p>
+                            <p class="text-gray-600 text-sm">A. 계약서가 없다면 민법상 조합 해산 혹은 상법상 회사 관련 규정을 따라야 하며 매우 불리한 싸움이 됩니다. 이 경우 법인 설립 과정에서의 자본금 납입 내역, 업무 기여도, 이메일/메신저에서 오간 업무 분장 및 지분 관련 대화 내역 등을 모두 끌어모아 실질적인 권리 관계를 사후적으로 입증해야 합니다.</p>
+                        </div>
+                        <div class="bg-white p-4 rounded border border-gray-100">
+                            <p class="font-bold text-[#C53030] text-sm mb-1">[개념/기준]</p>
+                            <p class="font-semibold text-gray-800 mb-2">Q. 나가는 동업자가 자신의 지분을 경쟁사에 팔겠다고 협박합니다. 막을 수 있나요?</p>
+                            <p class="text-gray-600 text-sm">A. 상법상 주식 양도는 원칙적으로 자유롭습니다. 하지만 정관에 '주식 양도 시 이사회의 승인을 얻어야 한다'는 규정(주식양도제한규정)이 있다면 방어가 가능합니다. 만약 이 규정이 없다면, 동업자의 퇴사 사유 중 영업비밀 침해나 경업금지 의무 위반 여부가 있는지 검토하여 가처분 신청으로 압박해야 합니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </details>
+        
+    </main>
+
+    <footer class="bg-gray-900 text-gray-400 py-8 text-center text-sm border-t border-gray-800">
+        <p class="mb-2">본 콘텐츠는 제공된 엑셀 데이터(류현 ai 질문 리스트.xlsx)를 바탕으로 생성된 가상의 법률 정보 제공 페이지입니다.</p>
+        <p>© 2026 Law Firm Ryu-Hyun. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
