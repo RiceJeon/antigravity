@@ -1,4 +1,4 @@
-# GEO PJT 🚀
+# GEO Project 🚀
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 > LLM 검색 엔진 인용 극대화를 `antigravity`처럼 가볍고 직관적으로 다루기 위한 프로젝트입니다.
