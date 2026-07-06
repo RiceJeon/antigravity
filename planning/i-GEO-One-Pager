@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>원페이저 - i-GEO 프로젝트 (전상훈)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        socar: '#00B0F0',
+                        socarDark: '#0084B8',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Pretendard', sans-serif;
+        }
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background-color: #ffffff;
+                color: #000000;
+                font-size: 11pt;
+            }
+            .print-page {
+                border: none !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+                max-width: 100% !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen py-10 px-4">
+
+    <!-- Print Top bar -->
+    <div class="max-w-4xl mx-auto mb-6 flex justify-between items-center no-print">
+        <a href="#" onclick="window.history.back();" class="text-slate-500 hover:text-slate-800 flex items-center gap-1 transition-all">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            이전으로
+        </a>
+        <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-950 text-white font-semibold py-2 px-4 rounded-lg shadow-md flex items-center gap-2 transition-all">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-3a2 2 0 00-2-2H9a2 2 0 00-2 2v3a2 2 0 002 2zm5-17V7a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path></svg>
+            인쇄 / PDF 저장
+        </button>
+    </div>
+
+    <!-- main document container -->
+    <div class="print-page max-w-4xl mx-auto bg-white border border-slate-200 shadow-lg rounded-xl p-6 sm:p-10 md:p-14 relative">
+        
+        <!-- Header Document Meta -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-100 pb-6 mb-8 gap-4">
+            <div>
+                <span class="text-xs font-semibold text-socar tracking-wider uppercase">대표 프로젝트</span>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">i-GEO: AI 최적화 콘텐츠 자동 생성 & 다중 배포</h1>
+            </div>
+        </div>
+
+        <!-- content sections -->
+        <div class="space-y-8 text-sm sm:text-base text-slate-700 leading-relaxed">
+            
+            <!-- Section 1 -->
+            <section class="bg-slate-50 p-5 rounded-xl border border-slate-100">
+                <h2 class="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
+                    <span class="w-1.5 h-4 bg-socar rounded-sm inline-block"></span>
+                    1. 문제 정의
+                </h2>
+                <div class="space-y-2 text-slate-600">
+                    <p>
+                        생성형 AI 검색 시대(GEO)의 도래로 검색 포털 및 다양한 외부 퍼블리셔 매체에 양질의 브랜드 콘텐츠를 동시 다발적으로 송출하는 마케팅 니즈가 수직 상승했습니다.
+                    </p>
+                    <p class="font-semibold text-slate-800">
+                        🚨 핵심 병목: 광고주가 고품질 콘텐츠를 수동으로 기획·작성해야 하고,<br>다차원 매체에 직접 일일이 로그인하여 복사/붙여넣기로 배포하는 과정에서 과도한 리소스 소요 발생 및 확장 제약.
+                    </p>
+                    <p class="text-xs text-slate-500 italic">
+                        * 측정 기준: 콘텐츠 1건당 평균 리서치/원고 작성/이미지 매핑/매체 등록 소요 평균 2~3시간 소요.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Section 2 -->
+            <section>
+                <h2 class="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
+                    <span class="w-1.5 h-4 bg-socar rounded-sm inline-block"></span>
+                    2. 가설 수립 및 검증
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="border border-slate-200 p-4 rounded-lg hover:border-socar transition-all">
+                        <span class="text-xs font-bold text-socar uppercase">가설 01. 효율성 관점</span>
+                        <p class="text-slate-800 font-medium mt-1">"CDP/DMP의 상품 메타 피드와 Gemini LLM API를 완전 연동하여 파이프라인을 구축하면, 기획자가 개입하는 원고 생산 및 등록 리소스를 90% 이상 단축할 수 있을 것이다."</p>
+                    </div>
+                    <div class="border border-slate-200 p-4 rounded-lg hover:border-socar transition-all">
+                        <span class="text-xs font-bold text-socar uppercase">가설 02. 비즈니스 임팩트</span>
+                        <p class="text-slate-800 font-medium mt-1">"자체 매거진 매체를 포함한 다중 외부 채널 배포 API를 원클릭 동기화 구조로 통일하면 광고주 노출 지연을 극복해 유료 빌링 전환율과 트래픽 임팩트를 증명할 수 있을 것이다."</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3 -->
+            <section>
+                <h2 class="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
+                    <span class="w-1.5 h-4 bg-socar rounded-sm inline-block"></span>
+                    3. 워크플로우 재설계
+                </h2>
+                <p class="text-slate-600 mb-4">
+                    기존의 파편화된 기획-검수-배포 수동 절차를 <strong>End-to-End 완전 자동화 파이프라인</strong>으로 승화시켰습니다.
+                </p>
+                <div class="relative pl-6 border-l-2 border-slate-100 space-y-5">
+                    <div class="relative">
+                        <span class="absolute -left-[31px] top-1 bg-socar text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">1</span>
+                        <h3 class="font-bold text-slate-800 text-sm">CDP 상품 메타 피드(Product Feed) 연동</h3>
+                        <p class="text-xs text-slate-500">광고주 쇼핑몰 내 타겟 상품 정보, 리뷰, 가격 등의 핵심 메타데이터 정제 자동화 수집.</p>
+                    </div>
+                    <div class="relative">
+                        <span class="absolute -left-[31px] top-1 bg-socar text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">2</span>
+                        <h3 class="font-bold text-slate-800 text-sm">AI 맞춤 큐레이션 및 에디팅 빌더 구축</h3>
+                        <p class="text-xs text-slate-500">도메인 특화 프롬프트 아키텍처 및 Gemini LLM 연동을 통한 TPO 맞춤 콘텐츠 자동 생성, 법적 고지(Legal Disclaimer) 레이아웃 자동 결합.</p>
+                    </div>
+                    <div class="relative">
+                        <span class="absolute -left-[31px] top-1 bg-socar text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">3</span>
+                        <h3 class="font-bold text-slate-800 text-sm">원클릭 다중 매체 배포 파이프라인 기획</h3>
+                        <p class="text-xs text-slate-500">각 매체별 API 전송 포맷 맞춤 규격화, 실시간 동기화 상태 처리 및 전송 실패에 대비한 분산 Queue 기반 방어 복구 시스템 설계.</p>
+                    </div>
+                    <div class="relative">
+                        <span class="absolute -left-[31px] top-1 bg-socar text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">4</span>
+                        <h3 class="font-bold text-slate-800 text-sm">빌링(Billing) 및 실시간 쿼터(Quota) 관리 탑재</h3>
+                        <p class="text-xs text-slate-500">유료 구독형 비즈니스를 지원하기 위한 KCP 정기 결제 연동 및 자동 갱신 배치 배치 설계, 월별 Quota 한도 초과 시 자원 차단 알림 정책 구현.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 4 -->
+            <section class="bg-slate-50 p-5 rounded-xl border border-slate-100">
+                <h2 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                    <span class="w-1.5 h-4 bg-socar rounded-sm inline-block"></span>
+                    4. 비즈니스 임팩트
+                </h2>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-100 text-center">
+                        <span class="text-xs font-semibold text-slate-500 block">원고 작성 & 배포 공수</span>
+                        <span class="text-2xl font-extrabold text-socar block mt-1">95%이상 단축</span>
+                        <span class="text-[10px] text-slate-400">기존 2~3시간 → 5분 이내 완결</span>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-100 text-center">
+                        <span class="text-xs font-semibold text-slate-500 block">초기 광고주 참여율</span>
+                        <span class="text-2xl font-extrabold text-slate-900 block mt-1">71% 온보딩</span>
+                        <span class="text-[10px] text-slate-400">프로모션 51개사 중 36개사 사용</span>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-100 text-center">
+                        <span class="text-xs font-semibold text-slate-500 block">수익화(Billing) 검증</span>
+                        <span class="text-2xl font-extrabold text-emerald-600 block mt-1">11개사 과금</span>
+                        <span class="text-[10px] text-slate-400">초기 31% 유료 결제 전환 성공</span>
+                    </div>
+                </div>
+
+                <div class="space-y-2 text-slate-600 text-sm">
+                    <p class="flex items-start gap-1">
+                        <span class="text-socar mr-1">✔</span>
+                        <strong>일정 완수:</strong> 5월 6일 목표 타깃 데드라인을 지연 없이 정확하게 맞추며 MVP를 성공적으로 정시 배포했습니다.
+                    </p>
+                    <p class="flex items-start gap-1">
+                        <span class="text-socar mr-1">✔</span>
+                        <strong>전사<br>표준 채택:</strong> 범용성을 보장하는 상품 기반 추천 아키텍처 설계를 인정받아, 본 프로젝트 로직이 사내 전사 'AI 상품 추천 로직 표준안'으로 승인되어 내부 비즈니스 연동을 리드했습니다.
+                    </p>
+                    <p class="flex items-start gap-1">
+                        <span class="text-socar mr-1">✔</span>
+                        <strong>비즈니스<br>인프라 확보:</strong> 기존 쇼핑 중심에서 향후 비쇼핑 도메인 광고주 템플릿 영역까지 한계 없이 연동 가능한 구조적 확장성을 구축해 냈습니다.
+                    </p>
+                </div>
+
+                <!-- 프로젝트 상세 바로가기 리소스 링크 세션 -->
+                <div class="mt-6 pt-5 border-t border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4 no-print">
+                    <div class="flex items-center gap-1.5 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                        <svg class="w-4 h-4 text-socar" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                        산출물 및 검증 자료
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <a href="https://github.com/RiceJeon/GEO-Project" target="_blank" class="inline-flex items-center gap-1.5 bg-slate-900 hover:bg-slate-950 text-white text-xs font-semibold py-2 px-3 rounded-lg transition-all shadow hover:-translate-y-0.5">
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                            GitHub 코드 저장소
+                        </a>
+                        <a href="https://www.figma.com/slides/AKcpnjeb9GtoZqKttUl5Oe" target="_blank" class="inline-flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold py-2 px-3 rounded-lg transition-all shadow hover:-translate-y-0.5">
+                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                            Figma 포트폴리오
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 5 -->
+            <section>
+                <h2 class="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
+                    <span class="w-1.5 h-4 bg-socar rounded-sm inline-block"></span>
+                    5. 쏘카 입사 시 응용 방향
+                </h2>
+                <p class="text-slate-600">
+                    본 i-GEO 프로젝트에서 얻은 <strong>'실시간 데이터 적재 파이프라인 구성력'</strong>과 <strong>'AI API 구조화 프로토타이핑 역량'</strong>은 쏘카의 다음 성장에 이렇게 적용될 수 있습니다.
+                </p>
+                <ul class="list-disc pl-5 mt-2 space-y-1 text-slate-600">
+                    <li>쏘카 앱 내 실시간 위치 및 운행 이력 세션을 기반으로 한 마이크로 모빌리티 수요 예측 기반 마케팅 자동화.</li>
+                    <li>숙박/항공 연동 여행 콘텐츠 추천 영역에 AI 추천 표준 아키텍처 결합, 쏘카 파트너 허브의 어드민 빌링 구조 간소화.</li>
+                </ul>
+            </section>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="border-t border-slate-100 mt-10 pt-6 text-center text-xs text-slate-400">
+            i-GEO AI 최적화 콘텐츠 자동 생성 및 다중 배포 프로젝트
+        </div>
+
+    </div>
+
+</body>
+</html>
