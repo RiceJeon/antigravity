@@ -34,3 +34,5 @@ Node.js 16+
    ```bash
    git clone [https://github.com/사용자명/GEO-PJT.git](https://github.com/사용자명/GEO-PJT.git)
 
+### GEO 프로젝트 통합 가이드 (Manual)
+* 링크 : https://i-gent-guide.pages.dev/#intro
